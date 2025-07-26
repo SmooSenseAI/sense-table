@@ -20,3 +20,5 @@ dist
 *.egg-info
 build
 .tmp
+.vscode
+.idea

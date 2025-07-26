@@ -1,25 +1,23 @@
 # Getting Started
 
-Welcome to the documentation site! This guide will help you get up and running quickly.
+Welcome to SenseTable! This guide will help you get up and running quickly.
 
-## What is This?
-
-This is a VitePress-powered documentation site that allows you to:
-
-- ✍️ Write documentation in **Markdown**
-- 🏗️ Build static websites automatically
-- 🎨 Customize the look and feel
-- 🔍 Provide built-in search functionality
-- 📱 Ensure mobile-friendly responsive design
 
 ## Quick Start
 
-### 1. Development
+SenseTable provides CLI, Python package and MacOS app (coming). You can choose anyone that you prefer.
 
-To start the development server and preview your changes:
+### CLI
 
 ```bash
-npm run docs:dev
+brew install
+```
+
+### Python package
+
+
+```bash
+pip install sense-table
 ```
 
 This will start a local development server at `http://localhost:5173`
