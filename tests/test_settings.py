@@ -1,12 +1,15 @@
 from sense_table.settings import SenseTableSettings
 from pydantic import ValidationError
-
+from my_logging import getLogger
 import unittest
+
+logger = getLogger(__name__)
+
 
 class TestSettings(unittest.TestCase):
     def test_settings(self):
         settings = SenseTableSettings()
-        print(settings)
+        logger.info(settings)
         self.assertEqual(settings.heatmapNormalizeColor, 'none')
 
     def test_wrong_name_or_value(self):

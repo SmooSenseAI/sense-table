@@ -1,12 +1,13 @@
 import os
-import unittest
 from my_logging import getLogger
-from playwright_utils import playwright_page, PlaywrightTestMixin, BASE_URL, DATA_DIR
+from playwright_utils import playwright_page, BASE_URL, DATA_DIR
+from basetestcase import BaseTestCase
 
 logger = getLogger(__name__)
 PWD = os.path.dirname(os.path.abspath(__file__))
-         
-class TestFolderBrowser(unittest.TestCase, PlaywrightTestMixin):
+
+class TestFolderBrowser(BaseTestCase):
+
     def setUp(self):
         self.root_folder_name = os.path.basename(DATA_DIR)
         self.folder_browser_url = f"{BASE_URL}/FolderBrowser?rootFolder={DATA_DIR}"

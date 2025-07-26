@@ -1,14 +1,15 @@
 import os
-import unittest
 from my_logging import getLogger
-from playwright_utils import playwright_page, PlaywrightTestMixin, BASE_URL, DATA_DIR
+from playwright_utils import playwright_page, BASE_URL, DATA_DIR
 from playwright.sync_api import sync_playwright, expect
+from basetestcase import BaseTestCase
 import pandas
 
 logger = getLogger(__name__)
 PWD = os.path.dirname(os.path.abspath(__file__))
          
-class TestTable(unittest.TestCase, PlaywrightTestMixin):
+class TestTable(BaseTestCase):
+        
     def setUp(self):
         self.file_name = 'dummy_data_various_types.parquet'
         self.table_url = f"{BASE_URL}/Table?filePath={DATA_DIR}/{self.file_name}&fileFormat=parquet"

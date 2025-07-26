@@ -1,5 +1,4 @@
 
-import boto3
 from urllib.parse import urlparse
 import logging
 from flask import Blueprint, jsonify, request, redirect, current_app

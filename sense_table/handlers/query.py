@@ -1,26 +1,13 @@
 import logging
 from flask import request, jsonify
-import math
 import duckdb
 from timeit import default_timer
 from flask import Blueprint, jsonify
-
+from sense_table.utils.serialization import serialize
 
 
 logger = logging.getLogger(__name__)
 query_bp = Blueprint('query', __name__, url_prefix='/api')
-
-
-def serialize(obj):
-    if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
-        return None
-    elif isinstance(obj, (list, tuple, set)):
-        return [serialize(x) for x in obj]
-    elif isinstance(obj, dict):
-        return {k: serialize(v) for k, v in obj.items()}
-    elif isinstance(obj, bytes):
-        return f'{obj.hex()}'
-    return obj
 
 
 @query_bp.post('/query')

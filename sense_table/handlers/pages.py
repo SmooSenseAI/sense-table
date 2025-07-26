@@ -11,7 +11,7 @@ pages_bp = Blueprint('pages', __name__, url_prefix='/')
 
 def serve_static_html(filename):
     """Helper function to serve static HTML files"""
-    return send_file(os.path.join(PWD, f"statics/{filename}.html"))
+    return send_file(os.path.join(PWD, f"../statics/{filename}.html"))
 
 
 @pages_bp.get('/')

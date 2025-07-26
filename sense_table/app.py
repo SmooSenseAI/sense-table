@@ -1,11 +1,11 @@
-from flask import Flask, jsonify, request, redirect
+from flask import Flask, jsonify
 from flask_cors import CORS
 import os
 import logging
-from sense_table.query import query_bp
-from sense_table.local_file_system import fs_bp
-from sense_table.pages import pages_bp
-from sense_table.s3 import s3_bp
+from sense_table.handlers.query import query_bp
+from sense_table.handlers.local_file_system import fs_bp
+from sense_table.handlers.pages import pages_bp
+from sense_table.handlers.s3 import s3_bp
 from sense_table.settings import SenseTableSettings
 from pydantic import validate_call
 import boto3

@@ -22,7 +22,7 @@ env:
 
 
 
-test:
+unit-test:
 	uv run python -m unittest discover tests
 
 
@@ -33,6 +33,12 @@ build:
 publish: build
 	uv run twine upload dist/*
 
-integration-test: build
+integration-test:
 	rm -rf tests_integration/{screenshots}
 	uv run python -m unittest discover tests_integration/
+
+
+test:
+	make unit-test
+	make build
+	make integration-test

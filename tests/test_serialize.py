@@ -1,5 +1,9 @@
 import unittest
-from sense_table.query import serialize
+from sense_table.utils.serialization import serialize
+from my_logging import getLogger
+
+logger = getLogger(__name__)
+
 
 class TestSerialize(unittest.TestCase):
     def test_nan(self):
