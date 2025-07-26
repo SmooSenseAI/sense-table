@@ -43,3 +43,6 @@ test:
 	make unit-test
 	make build
 	make integration-test
+
+dev:
+	FLASK_DEBUG=1 uv run sense_table/app.py

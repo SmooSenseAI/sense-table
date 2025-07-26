@@ -1,111 +1,54 @@
 # Installation
 
-This page covers how to set up and customize your VitePress documentation site.
+SenseTable provides CLI, Python package and MacOS app (coming). You can choose any one that you prefer.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-- **Node.js** version 18 or higher
-- **npm** or **yarn** package manager
-
-## Initial Setup
-
-### 1. Clone or Download
-
-If you're starting from this template:
+Install [uv](https://docs.astral.sh/uv/) (an extremely fast Python package manager):
 
 ```bash
-git clone https://github.com/SmooSenseAI/sense-table.git
-cd sense-table
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-### 2. Install Dependencies
+
+## Option 1: CLI
+
+
+Start a new terminal. Now you can install or update SenseTable:
+```bash
+uv tool install -U sense-table
+```
+
+To run SenseTable, go to the folder containing your data files and simply run command:
+```bash
+sense
+
+# 👉 Open in your web browser: http://localhost:8000
+```
+
+## Option 2: Python package
+Python SDK is useful when you want to add your customization or integrate with your other web apps.
+
+It is suggested to do it in a virtual environment to install the package:
 
 ```bash
-npm install
+pip install sense-table
 ```
 
-### 3. Start Development Server
+After installation, start SenseTable:
 
-```bash
-npm run docs:dev
+```py
+from sense_table.app import SenseTableApp
+
+app = SenseTableApp().create_app()
+
+@app.route('/your-other-page')
+def your_other_page():
+    return 'hello world'
+
+def start():
+    app.run(port=8000)
+
+if __name__ == '__main__':
+    start()
 ```
-
-Your site will be available at `http://localhost:5173`
-
-## Project Structure
-
-Here's the recommended file structure for your documentation:
-
-```
-sense-table/
-├── .vitepress/
-│   ├── config.js          # Site configuration
-│   └── dist/              # Built files (auto-generated)
-├── guide/
-│   ├── index.md           # Guide homepage
-│   ├── installation.md    # This page
-│   └── configuration.md   # Configuration guide
-├── api/
-│   ├── index.md           # API overview
-│   └── methods.md         # API methods
-├── index.md               # Site homepage
-└── package.json           # Dependencies and scripts
-```
-
-## Adding Content
-
-### Creating New Pages
-
-1. Create a new `.md` file in the appropriate directory
-2. Add frontmatter if needed:
-
-```markdown
----
-title: Page Title
-description: Page description
----
-
-# Your Content Here
-```
-
-3. Update the navigation in `.vitepress/config.js` if needed
-
-### Adding Images
-
-Place images in a `public` directory at the root:
-
-```
-public/
-├── images/
-│   └── screenshot.png
-└── logo.svg
-```
-
-Reference them in Markdown:
-
-```markdown
-![Screenshot](/images/screenshot.png)
-```
-
-## Customization
-
-### Updating Site Information
-
-Edit `.vitepress/config.js` to update:
-
-- Site title and description
-- Navigation menu
-- Social links
-- Footer information
-
-### Styling
-
-You can customize the appearance by:
-
-1. Overriding CSS variables
-2. Adding custom CSS
-3. Using custom Vue components
-
-See the [Configuration Guide](/guide/configuration) for detailed customization options. 
