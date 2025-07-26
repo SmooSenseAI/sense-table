@@ -1,5 +1,5 @@
 {
-  "name": "sense-table-doc",
+  "name": "sense-table",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,16 +10,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SmooSenseAI/sense-table-doc.git"
+    "url": "git+https://github.com/SmooSenseAI/sense-table.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "bugs": {
-    "url": "https://github.com/SmooSenseAI/sense-table-doc/issues"
+    "url": "https://github.com/SmooSenseAI/sense-table/issues"
   },
-  "homepage": "https://github.com/SmooSenseAI/sense-table-doc#readme",
+  "homepage": "https://github.com/SmooSenseAI/sense-table#readme",
   "devDependencies": {
     "vitepress": "^1.6.3"
   }

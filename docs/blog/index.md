@@ -30,7 +30,7 @@ Featuring amazing projects and use cases from our SenseTable community.
 
 Want to be notified when we publish new blog posts? 
 
-- ⭐ **Star our repository** on [GitHub](https://github.com/SmooSenseAI/sense-table-doc)
+- ⭐ **Star our repository** on [GitHub](https://github.com/SmooSenseAI/sense-table)
 - 📧 **Follow us** for the latest updates
 - 💬 **Join the discussion** in our community
 

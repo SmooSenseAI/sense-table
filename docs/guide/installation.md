@@ -16,8 +16,8 @@ Before you begin, ensure you have the following installed:
 If you're starting from this template:
 
 ```bash
-git clone https://github.com/SmooSenseAI/sense-table-doc.git
-cd sense-table-doc
+git clone https://github.com/SmooSenseAI/sense-table.git
+cd sense-table
 ```
 
 ### 2. Install Dependencies
@@ -39,7 +39,7 @@ Your site will be available at `http://localhost:5173`
 Here's the recommended file structure for your documentation:
 
 ```
-sense-table-doc/
+sense-table/
 ├── .vitepress/
 │   ├── config.js          # Site configuration
 │   └── dist/              # Built files (auto-generated)

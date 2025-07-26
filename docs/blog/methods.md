@@ -66,9 +66,9 @@ User-generated content showcasing creative use cases.
 ## Resources
 
 - [Markdown Guide](https://www.markdownguide.org/) - Syntax reference
-- [Style Guide](https://github.com/SmooSenseAI/sense-table-doc/wiki/style-guide) - Our writing standards
-- [Templates](https://github.com/SmooSenseAI/sense-table-doc/tree/main/templates) - Article templates
+- [Style Guide](https://github.com/SmooSenseAI/sense-table/wiki/style-guide) - Our writing standards
+- [Templates](https://github.com/SmooSenseAI/sense-table/tree/main/templates) - Article templates
 
 ---
 
-*Ready to contribute? Start by [opening an issue](https://github.com/SmooSenseAI/sense-table-doc/issues/new) with your article idea!* 
+*Ready to contribute? Start by [opening an issue](https://github.com/SmooSenseAI/sense-table/issues/new) with your article idea!* 

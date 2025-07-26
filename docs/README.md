@@ -199,8 +199,8 @@ This project is open source and available under the MIT License.
 ## 🆘 Support
 
 - **Documentation**: Browse the [Guide](./guide/) section
-- **Issues**: [GitHub Issues](https://github.com/SmooSenseAI/sense-table-doc/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/SmooSenseAI/sense-table-doc/discussions)
+- **Issues**: [GitHub Issues](https://github.com/SmooSenseAI/sense-table/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/SmooSenseAI/sense-table/discussions)
 
 ---
 

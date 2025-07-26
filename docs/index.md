@@ -14,7 +14,7 @@ hero:
       link: /guide/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/SmooSenseAI/sense-table-doc
+      link: https://github.com/SmooSenseAI/sense-table
 
 features:
   - icon: 🚀
