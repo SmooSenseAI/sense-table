@@ -25,7 +25,8 @@ def main(port):
     
     \b
     Examples:
-        sense-table                    # Start SenseTable in current directory
+        sense                    # Start SenseTable in current directory
+        sense --port 8080        # Use custom port
     """
     
     default_folder = os.getcwd()

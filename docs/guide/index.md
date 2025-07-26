@@ -9,10 +9,7 @@ SenseTable provides CLI, Python package and MacOS app (coming). You can choose a
 
 ### CLI (Homebrew - Recommended)
 
-```bash
-brew tap SmooSenseAI/tap
-brew install sense-table
-```
+
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
