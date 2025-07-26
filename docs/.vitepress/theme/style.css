@@ -1,0 +1,45 @@
+/* Custom theme styles */
+
+/* Ensure our custom footer doesn't conflict with default footer */
+.VPFooter:not(.custom-footer) {
+  display: none;
+}
+
+/* Additional hover effects for brand elements */
+.vp-doc a:hover {
+  text-decoration: underline;
+  text-decoration-style: solid;
+}
+
+/* Custom scrollbar for better UX */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vp-c-bg-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-divider);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-text-3);
+}
+
+/* Better focus indicators */
+.tooltip-trigger:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
+/* Improve button and interactive element accessibility */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+  border-radius: 4px;
+} 

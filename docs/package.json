@@ -1,0 +1,26 @@
+{
+  "name": "sense-table-doc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SmooSenseAI/sense-table-doc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/SmooSenseAI/sense-table-doc/issues"
+  },
+  "homepage": "https://github.com/SmooSenseAI/sense-table-doc#readme",
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  }
+}
