@@ -28,10 +28,11 @@ unit-test:
 
 build:
 	(rm -rf dist)
+	uv version --bump rc
 	uv build
 	
-publish: build
-	uv run twine upload dist/*
+publish:
+	UV_PUBLISH_TOKEN=$(shell awk '/password/ { print $$3 }' ~/.pypirc) uv publish
 
 integration-test:
 	rm -rf tests_integration/{screenshots}

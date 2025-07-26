@@ -14,6 +14,13 @@ brew tap SmooSenseAI/tap
 brew install sense-table
 ```
 
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+uv venv ~/.cache/uv/sense-table
+~/.cache/uv/sense-table/uv pip install sense-table
+
+```
+
 After installation, start SenseTable:
 
 ```bash

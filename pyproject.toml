@@ -1,6 +1,6 @@
 [project]
 name = "sense-table"
-version = "0.0.1rc2"
+version = "0.0.1rc3"
 description = "Smoothly make sense of your large-scale multi-modal tabular data"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -28,8 +28,13 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["sense_table", "sense_table.utils"]
 include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sense_table*"]
+exclude = ["sense_table.statics*"]
+namespaces = false
 
 [tool.setuptools.package-data]
 sense_table = ["statics/**/*", "statics/**/.*"]
