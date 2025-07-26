@@ -30,17 +30,10 @@ jobs:
         run: npm run docs:build
         working-directory: docs
         
-      - name: Check build output
-        run: |
-          echo "Checking if base URL is applied correctly..."
-          ls -la docs/.vitepress/dist/
-          find docs/.vitepress/dist -name "*.html" | head -1 | xargs cat | grep -E "(href|src).*sense-table" || echo "Base URL not found in HTML"
-        
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/.vitepress/dist
           enable_jekyll: false
-          cname: smoosense.ai
-          destination_dir: sense-table 
+          cname: smoosense.ai 
