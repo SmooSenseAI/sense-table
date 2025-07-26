@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
 import os
 import logging
 from sense_table.handlers.query import query_bp
@@ -26,7 +25,6 @@ class SenseTableApp:
 
     def create_app(self):
         app = Flask(__name__, static_folder='statics', static_url_path='/')
-        CORS(app)
         
         # Store the s3_client in app config so blueprints can access it
         app.config['S3_CLIENT'] = self.s3_client

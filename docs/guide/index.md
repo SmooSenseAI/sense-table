@@ -7,20 +7,30 @@ Welcome to SenseTable! This guide will help you get up and running quickly.
 
 SenseTable provides CLI, Python package and MacOS app (coming). You can choose anyone that you prefer.
 
-### CLI
+### CLI (Homebrew - Recommended)
 
 ```bash
-brew install
+brew tap SmooSenseAI/tap
+brew install sense-table
+```
+
+After installation, start SenseTable:
+
+```bash
+sense-table --port 8000
 ```
 
 ### Python package
-
 
 ```bash
 pip install sense-table
 ```
 
-This will start a local development server at `http://localhost:5173`
+After installation, start SenseTable:
+
+```bash
+sense-table --port 8000
+```
 
 ### 2. Building
 
