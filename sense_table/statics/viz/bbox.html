@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounding Box Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #plot {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="plot"></div>
+    
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                image: params.get('image'),
+                size: parseInt(params.get('size') || '200'),
+                bboxes: JSON.parse(params.get('bboxes')),
+                autorange: params.get('autorange') === 'true',
+                name: params.get('name') || ''
+            };
+        }
+
+        function drawBoundingBox() {
+            const { image, bboxes, size, name, autorange } = getQueryParams();
+            const isMiniIcon = size < 100;
+            const imgElement = new Image();
+            imgElement.crossOrigin = "anonymous"; 
+            
+            imgElement.src = `/api/s3/proxy?url=${encodeURIComponent(image)}`;
+
+            imgElement.onload = function() {
+                const imageWidth = imgElement.naturalWidth;
+                const imageHeight = imgElement.naturalHeight;
+
+                // Create a canvas to draw the image
+                const canvas = document.createElement('canvas');
+                canvas.width = imageWidth;
+                canvas.height = imageHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(imgElement, 0, 0);
+
+                // Get the data URL of the image
+                const dataURL = canvas.toDataURL();
+
+                const traces = _.map(bboxes, ({bbox, label}) => {
+
+                    const [x, y, w, h] = bbox;
+
+                    const trace = {
+                        x: [x, x + w, x + w, x, x],
+                        y: [y, y, y + h, y + h, y],
+                        text: label,
+                        hoverinfo: 'text',
+                        mode: 'lines',
+                        line: {
+                            color: 'red',
+                            width: 2
+                        },
+                        type: 'scatter'
+                    };
+                    return trace;
+                });
+                const ratio = size / Math.max(imageWidth, imageHeight);
+                const layout = {
+                    width: imageWidth * ratio,
+                    height: imageHeight * ratio,
+                    
+                    xaxis: {range: [0, imageWidth], showgrid: false, zeroline: false},
+                    yaxis: {range: [imageHeight, 0], showgrid: false, zeroline: false, scaleanchor: 'x'},
+                    margin: {l: 0, r: 0, t: 0, b: 0},
+                    paper_bgcolor: 'rgba(0,0,0,0)',
+                    plot_bgcolor: 'rgba(0,0,0,0)',
+                    images: [
+                        {
+                            source: dataURL, sizing: 'stretch',
+                            x: 0, y: 0, sizex: imageWidth, sizey: imageHeight, xref: 'x', yref: 'y', opacity: 1.0, layer: 'below'
+                        }
+                    ]
+                };
+
+                Plotly.newPlot('plot', traces, layout, {staticPlot: isMiniIcon});
+                if (autorange) {
+                    Plotly.relayout('plot', {
+                        'xaxis.autorange': true,
+                        'yaxis.autorange': true
+                    });
+                }
+            };
+        }
+
+        window.onload = drawBoundingBox;
+    </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+*.parquet binary
+*.csv binary
+sense_table/statics/** -text
+sense_table/statics/** -diff

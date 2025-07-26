@@ -1,0 +1,43 @@
+[project]
+name = "sense-table"
+version = "0.0.1rc1"
+description = "Smoothly make sense of your large-scale multi-modal tabular data"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "boto3>=1.39.11",
+    "click>=8.1.8",
+    "duckdb>=1.2.1",
+    "flask>=3.1.0",
+    "flask-cors>=5.0.1",
+    "gunicorn>=23.0.0",
+    "pydantic>=2.11.7",
+    "pytz>=2025.2",
+    "requests>=2.32.3",
+    "rich>=14.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "datamodel-code-generator>=0.31.2",
+    "pytest>=8.0.0",
+    "twine>=6.1.0",
+    "numpy>=2.0.2",
+    "pandas>=2.3.0",
+    "playwright>=1.53.0",
+    "pyarrow>=20.0.0",
+]
+
+[tool.setuptools]
+packages = ["sense_table", "sense_table.utils"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+sense_table = ["statics/**/*", "statics/**/.*"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+sense-table = "sense_table.cli:main"
