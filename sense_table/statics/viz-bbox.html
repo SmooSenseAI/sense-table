@@ -11,6 +11,7 @@
         body {
             margin: 0;
             padding: 0;
+            background-color: transparent;
         }
 
         #plot {
@@ -42,7 +43,7 @@
             const imgElement = new Image();
             imgElement.crossOrigin = "anonymous"; 
             
-            imgElement.src = `/api/s3/proxy?url=${encodeURIComponent(image)}`;
+            imgElement.src = `./api/s3-proxy?url=${encodeURIComponent(image)}`;
 
             imgElement.onload = function() {
                 const imageWidth = imgElement.naturalWidth;
@@ -84,8 +85,6 @@
                     xaxis: {range: [0, imageWidth], showgrid: false, zeroline: false},
                     yaxis: {range: [imageHeight, 0], showgrid: false, zeroline: false, scaleanchor: 'x'},
                     margin: {l: 0, r: 0, t: 0, b: 0},
-                    paper_bgcolor: 'rgba(0,0,0,0)',
-                    plot_bgcolor: 'rgba(0,0,0,0)',
                     images: [
                         {
                             source: dataURL, sizing: 'stretch',

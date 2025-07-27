@@ -25,6 +25,7 @@ dev = [
     "pandas>=2.3.0",
     "playwright>=1.53.0",
     "pyarrow>=20.0.0",
+    "zappa>=0.60.2",
 ]
 
 [tool.setuptools]

@@ -1,12 +1,11 @@
 import logging
-from flask import request, jsonify, send_file
+from flask import request, jsonify, send_file, current_app
 from flask import Blueprint, jsonify
 import os
 import subprocess
 
-
 logger = logging.getLogger(__name__)
-fs_bp = Blueprint('fs', __name__, url_prefix='/api')
+fs_bp = Blueprint('fs', __name__)
 
 
 @fs_bp.get('/ls')

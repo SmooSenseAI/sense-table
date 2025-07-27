@@ -1,0 +1,24 @@
+{
+    "dev": {
+        "app_function": "lambda.app",
+        "aws_region": "us-west-2",
+        "exclude": [
+            "boto3",
+            "dateutil",
+            "botocore",
+            "s3transfer",
+            "concurrent"
+        ],
+        "include_packages": [
+            "sense_table",
+            "lambda.py",
+            "data"
+        ],
+        "slim_handler": false,
+        "profile_name": "default",
+        "project_name": "coco2017",
+        "runtime": "python3.9",
+        "s3_bucket": "sense-table-demo",
+        "memory_size": 3008
+    }
+}

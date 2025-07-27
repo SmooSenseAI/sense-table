@@ -1,13 +1,13 @@
-
+import os
 from urllib.parse import urlparse
 import logging
 from flask import Blueprint, jsonify, request, redirect, current_app
 import textwrap
 
 logger = logging.getLogger(__name__)
-s3_bp = Blueprint('s3', __name__, url_prefix='/api/s3')
+s3_bp = Blueprint('s3', __name__)
 
-@s3_bp.route('/proxy')
+@s3_bp.route('/s3-proxy')
 def proxy():
     url = request.args.get('url')    
     try:

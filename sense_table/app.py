@@ -18,23 +18,30 @@ class SenseTableApp:
     def __init__(
         self, *, 
         settings: SenseTableSettings = SenseTableSettings(),
+        url_prefix: str = '',
         s3_client: boto3.client = boto3.client('s3'),
     ):
         self.settings = settings
         self.s3_client = s3_client
-
+        if url_prefix:
+            assert url_prefix.startswith('/'), "url_prefix must start with /"
+            assert not url_prefix.endswith('/'), "url_prefix must not end with /"
+        self.url_prefix = url_prefix
+        
     def create_app(self):
-        app = Flask(__name__, static_folder='statics', static_url_path='/')
+        app = Flask(__name__, static_folder='statics', static_url_path=f'{self.url_prefix}')
         
         # Store the s3_client in app config so blueprints can access it
         app.config['S3_CLIENT'] = self.s3_client
+        app.config['URL_PREFIX'] = self.url_prefix
         
-        app.register_blueprint(query_bp)
-        app.register_blueprint(fs_bp)
-        app.register_blueprint(pages_bp)
-        app.register_blueprint(s3_bp)
+        # Register blueprints with url_prefix
+        app.register_blueprint(query_bp, url_prefix=f"{self.url_prefix}/api")
+        app.register_blueprint(fs_bp, url_prefix=f"{self.url_prefix}/api")
+        app.register_blueprint(pages_bp, url_prefix=self.url_prefix)
+        app.register_blueprint(s3_bp, url_prefix=f"{self.url_prefix}/api")
         
-        @app.route('/api/settings')
+        @app.route(f'{self.url_prefix}/api/settings')
         def get_settings():
             return jsonify(self.settings.model_dump())
         
@@ -45,4 +52,6 @@ class SenseTableApp:
 
 
 if __name__ == "__main__":
-    SenseTableApp().run()
+    SenseTableApp(
+        url_prefix=''
+    ).run()

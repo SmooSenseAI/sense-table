@@ -1,13 +1,13 @@
 import logging
-from flask import request, jsonify
+import os
+from flask import request, jsonify, current_app
 import duckdb
 from timeit import default_timer
 from flask import Blueprint, jsonify
 from sense_table.utils.serialization import serialize
 
-
 logger = logging.getLogger(__name__)
-query_bp = Blueprint('query', __name__, url_prefix='/api')
+query_bp = Blueprint('query', __name__)
 
 
 @query_bp.post('/query')
