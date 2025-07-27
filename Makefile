@@ -28,7 +28,7 @@ unit-test:
 
 build:
 	(rm -rf dist)
-	uv version --bump rc
+	#uv version --bump rc
 	uv build
 	
 publish:
