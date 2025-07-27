@@ -16,7 +16,19 @@ def serve_static_html(filename):
 
 @pages_bp.get('/')
 def get_index():
-    return serve_static_html("index")
+
+    #return serve_static_html("index")
+    return f"""
+    <html>
+    <body>
+    <h1>Hello World</h1>
+    <ul>
+    <li><a href="/FolderBrowser">Folder Browser</a></li>
+    <li><a href="/Table">Table</a></li>
+    </ul>
+    </body>
+    </html>
+    """
 
 @pages_bp.get("/FolderBrowser")
 def get_folder_browser():
