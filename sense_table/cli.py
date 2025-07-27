@@ -3,6 +3,7 @@ import os
 from sense_table.app import SenseTableApp
 from sense_table.settings import SenseTableSettings
 import textwrap
+from importlib.metadata import version, PackageNotFoundError
 
 ASCII_ART = """
 ███████╗███████╗███╗   ██╗███████╗███████╗████████╗ █████╗ ██████╗ ██╗     ███████╗
@@ -13,11 +14,17 @@ ASCII_ART = """
 ╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝
 """
 
-
+def get_package_version():
+    """Get the installed package version."""
+    try:
+        return version("sense-table")
+    except PackageNotFoundError:
+        return "development"
 
 @click.command()
 @click.option('--port', default=8000, type=int, help='Port to run the server on')
-def main(port):
+@click.option('--version', '-v', is_flag=True, help='Show the version and exit.')
+def main(port, version):
     """Smoothly make sense of your large-scale multi-modal tabular data.
     
     SenseTable provides a web interface for exploring and analyzing your data files.
@@ -27,7 +34,12 @@ def main(port):
     Examples:
         sense                    # Start SenseTable in current directory
         sense --port 8080        # Use custom port
+        sense --version          # Show version information
     """
+    
+    if version:
+        click.echo(f"sense-table, version {get_package_version()}")
+        return
     
     default_folder = os.getcwd()
         
