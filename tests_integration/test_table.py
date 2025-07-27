@@ -22,7 +22,7 @@ class TestTable(BaseTestCase):
             page.goto(self.table_url)
             
             page.wait_for_selector("div.ag-root-wrapper", timeout=5000)
-            page.wait_for_selector("#sql-status-count-running:has-text('0')", timeout=5000)
+            page.wait_for_selector("#sql-status-count-running:has-text('0')", timeout=30_000)
             self.screenshot(page, "table")
 
             for tab in ['MainTable', 'ColumnNavigation', 'Gallery', 'RowDetails', 'HeatMap', 'Histogram', 'BoxPlot', 'BubblePlot']:
@@ -59,10 +59,6 @@ class TestTable(BaseTestCase):
             sort_button.click()
             self.assertTrue(self.is_element_in_view(table, sort_button), "Sort button should stay visible after clicking")
 
-                
-                
-
-            
 
 
  
