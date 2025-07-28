@@ -1,4 +1,4 @@
-# Installation
+# Installation and start using
 
 SenseTable provides CLI, Python package and MacOS app (coming). You can choose any one that you prefer.
 
@@ -9,12 +9,13 @@ Install [uv](https://docs.astral.sh/uv/) (an extremely fast Python package manag
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
-
+Start a new terminal after you just installed `uv`.
 
 ## Option 1: CLI
 
+CLI is recommended if you just want to quickly explore data.
 
-Start a new terminal. Now you can install or update SenseTable:
+Install or update SenseTable CLI:
 ```bash
 uv tool install -U sense-table
 ```

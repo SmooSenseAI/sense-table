@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { tooltipPlugin } from './plugins/tooltip-plugin.js'
 
 export default defineConfig({
   title: 'SenseTable',
@@ -7,7 +8,12 @@ export default defineConfig({
   // Base URL for GitHub Pages deployment
   base: '/sense-table',
   
- 
+  // Markdown configuration
+  markdown: {
+    config: (md) => {
+      tooltipPlugin(md)
+    }
+  },
   
   themeConfig: {
     // Navigation menu
@@ -24,8 +30,8 @@ export default defineConfig({
           text: 'Guide',
           items: [
             { text: 'Introduction', link: '/guide/' },
-            { text: 'Installation', link: '/guide/installation' },
-            { text: 'Configuration', link: '/guide/configuration' }
+            { text: 'Start', link: '/guide/start' },
+            { text: 'Configuration', link: '/guide/configuration' },
           ]
         }
       ],
