@@ -5,6 +5,9 @@ hero:
   name: SenseTable
   text: Your AI Data Explorer
   tagline: The easist way to make sense of structured data
+  image:
+    src: /images/gui.jpg
+    alt: SenseTable GUI Interface
   actions:
     - theme: brand
       text: Get Started

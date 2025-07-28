@@ -48,7 +48,7 @@ export function tooltipPlugin(md) {
 
     // Extract text and URL
     const text = state.src.slice(bracketStart + 1, labelEnd)
-    const url = state.src.slice(pos + 1, urlEnd)
+    let url = state.src.slice(pos + 1, urlEnd)
 
     // Check if URL points to an image (common image extensions)
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg']
@@ -57,6 +57,11 @@ export function tooltipPlugin(md) {
     if (!isImage) {
       // If not an image, treat as regular link
       return false
+    }
+
+    // Prepend base path if URL starts with '/'
+    if (url.startsWith('/')) {
+      url = '/sense-table' + url
     }
 
     // Create token
