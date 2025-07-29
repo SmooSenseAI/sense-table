@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 import os
 import logging
 from sense_table.handlers.query import query_bp
-from sense_table.handlers.local_file_system import fs_bp
+from sense_table.handlers.fs import fs_bp
 from sense_table.handlers.pages import pages_bp
 from sense_table.handlers.s3 import s3_bp
 from sense_table.settings import SenseTableSettings
@@ -53,5 +53,8 @@ class SenseTableApp:
 
 if __name__ == "__main__":
     SenseTableApp(
-        url_prefix=''
+        url_prefix='',
+        settings=SenseTableSettings(
+            enableDebugging=True,
+        )
     ).run()

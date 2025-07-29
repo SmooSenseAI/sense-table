@@ -5,6 +5,7 @@ import duckdb
 from timeit import default_timer
 from flask import Blueprint, jsonify
 from sense_table.utils.serialization import serialize
+from sense_table.utils.duckdb_connection import get_duckdb_connection_s3
 
 logger = logging.getLogger(__name__)
 query_bp = Blueprint('query', __name__)
@@ -12,9 +13,12 @@ query_bp = Blueprint('query', __name__)
 
 @query_bp.post('/query')
 def query():
+    con = get_duckdb_connection_s3(current_app.config['S3_CLIENT'])
+
     time_start = default_timer()
+
     query = request.json['query']
-    con = duckdb.connect()
+    
     column_names = []
     rows = []
     error = None
