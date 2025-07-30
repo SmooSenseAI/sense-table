@@ -2,6 +2,9 @@
 import boto3
 import duckdb
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 def get_duckdb_connection():
     return duckdb.connect()
@@ -30,6 +33,13 @@ def get_duckdb_connection_s3(s3_client):
     if aws_token:
         con.execute(f"SET s3_session_token='{aws_token}'")
     return con
+
+def check_permissions(query: str):
+    tokens = [w.lower() for w in query.split() if w]
+    forbidden = ['copy', 'export', 'delete', 'attach']
+    if any(w in tokens for w in forbidden):
+        logger.warning(f"Forbidden query: {query}")
+        raise PermissionError("You are only allowed to run readonly queries")
 
 
 if __name__ == '__main__':

@@ -23,7 +23,7 @@ env:
 
 
 unit-test:
-	uv run python -m unittest discover tests
+	uv run python -m unittest discover tests/
 
 
 build:

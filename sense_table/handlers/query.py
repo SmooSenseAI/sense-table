@@ -1,11 +1,9 @@
 import logging
-import os
 from flask import request, jsonify, current_app
-import duckdb
 from timeit import default_timer
 from flask import Blueprint, jsonify
 from sense_table.utils.serialization import serialize
-from sense_table.utils.duckdb_connection import get_duckdb_connection_s3
+from sense_table.utils.duckdb import get_duckdb_connection_s3, check_permissions
 
 logger = logging.getLogger(__name__)
 query_bp = Blueprint('query', __name__)
@@ -18,6 +16,10 @@ def query():
     time_start = default_timer()
 
     query = request.json['query']
+    try:
+        check_permissions(query)
+    except PermissionError as e:
+        return jsonify({'error': str(e)}), 403
     
     column_names = []
     rows = []
