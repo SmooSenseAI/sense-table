@@ -2,7 +2,7 @@
 
 .EXPORT_ALL_VARIABLES:
 UI_REPO_DIR := ${PWD}/../sense-table-ui
-URL_PREFIX := /demo
+URL_PREFIX := 
 
 update-settings-schema:
 	uv run datamodel-codegen \
@@ -46,3 +46,4 @@ test:
 
 dev:
 	FLASK_DEBUG=1 uv run sense_table/app.py
+

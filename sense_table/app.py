@@ -53,7 +53,7 @@ class SenseTableApp:
 
 if __name__ == "__main__":
     SenseTableApp(
-        url_prefix=os.getenv('URL_PREFIX', ''),
+        url_prefix='', #os.getenv('URL_PREFIX', ''),
         settings=SenseTableSettings(
             enableDebugging=True,
         )
