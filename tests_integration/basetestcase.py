@@ -2,7 +2,8 @@ import unittest
 import threading
 import time
 import logging
-from playwright_utils import PlaywrightTestMixin
+import os
+from playwright_utils import PlaywrightTestMixin, BASE_URL
 from sense_table.app import SenseTableApp
 
 logger = logging.getLogger(__name__)
@@ -39,7 +40,7 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
         logger.info("Starting server for integration tests...")
         
         # Create the app instance
-        cls.app_instance = SenseTableApp()
+        cls.app_instance = SenseTableApp(url_prefix=os.getenv('URL_PREFIX', ''))
         flask_app = cls.app_instance.create_app()
         
         # Configure Flask for testing
@@ -62,7 +63,7 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
         # Verify server is running by making a simple request
         import requests
         try:
-            response = requests.get("http://localhost:8000/api/settings", timeout=5)
+            response = requests.get(f"{BASE_URL}/api/settings", timeout=5)
             if response.status_code == 200:
                 logger.info("Server started successfully")
                 cls._server_started = True

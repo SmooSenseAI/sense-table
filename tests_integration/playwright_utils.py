@@ -6,7 +6,7 @@ import os
 logger = logging.getLogger(__name__)
 
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = f"http://localhost:8000{os.getenv('URL_PREFIX', '')}"
 DATA_DIR = os.path.join(dirname(dirname(abspath(__file__))), 'data')
 
 @contextmanager

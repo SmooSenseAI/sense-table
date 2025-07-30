@@ -8,8 +8,8 @@ set -u  # to exit if you use an unbound variable
 
 docker run --rm --platform=linux/amd64 \
   -v "$PWD"/sense_table:/var/task/sense_table \
-  -v "$PWD"/lambda.py:/var/task/lambda.py \
-  -v "$PWD"/zappa_settings.json:/var/task/zappa_settings.json \
+  -v "$PWD"/zappa/lambda.py:/var/task/lambda.py \
+  -v "$PWD"/zappa/zappa_settings.json:/var/task/zappa_settings.json \
   -v "$PWD"/.python-version:/var/task/.python-version \
   -v "$PWD"/pyproject.toml:/var/task/pyproject.toml \
   -v "$PWD"/data:/var/task/data \

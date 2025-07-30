@@ -1,6 +1,7 @@
 
 import boto3
 import duckdb
+import os
 
 def get_duckdb_connection():
     return duckdb.connect()
@@ -12,6 +13,14 @@ def get_duckdb_connection_s3(s3_client):
     aws_secret = credentials.secret_key
     aws_token = credentials.token  # May be None if not temporary credentials
     con = duckdb.connect()
+    home_directory = os.getenv('HOME', '/tmp')
+    # Set home_directory before httpfs auto-installs
+    con.execute(f"SET home_directory='{home_directory}'")
+    con.execute("SET memory_limit='3GB'")
+
+    # Now install and load the extension
+    con.execute("INSTALL httpfs")
+    con.execute("LOAD httpfs")
     # Configure DuckDB S3 settings
     con.execute(f"SET s3_region='{region}'")
     con.execute(f"SET s3_access_key_id='{aws_key}'")

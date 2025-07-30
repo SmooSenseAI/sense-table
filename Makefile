@@ -1,8 +1,8 @@
 .PHONY: env clean
 
-
+.EXPORT_ALL_VARIABLES:
 UI_REPO_DIR := ${PWD}/../sense-table-ui
-
+URL_PREFIX := /demo
 
 update-settings-schema:
 	uv run datamodel-codegen \

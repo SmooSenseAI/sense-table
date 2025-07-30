@@ -6,7 +6,7 @@ from flask import Flask
 PWD = os.path.dirname(os.path.abspath(__file__))
 
 app = SenseTableApp(url_prefix='', settings=SenseTableSettings(
-    folderBrowserDefaultRootFolder=os.path.join(PWD, 'data'),
+    folderBrowserDefaultRootFolder='s3://sense-table-demo',
     licenseKey= "GBQvhcqo1GHk6VBpI0PYsZwfhuQdoYTYHhEHQT8HnExJv8WG_7lCkezzMtIimlSQ1sZrDjqhFAmASYHXIPvsDQ==|6vtGq0Yhb1BXsXOonjSfx_JVaab7kmCU_XSRf7dmjYs=|eyJkb21haW4iOiAicjA5M2JsMW56aC5leGVjdXRlLWFwaS51cy13ZXN0LTIuYW1hem9uYXdzLmNvbSIsICJ1cmxfcHJlZml4IjogIi9kZXYiLCAidmFsaWRfdW50aWwiOiAiMjAyNi0wOC0wNiJ9"
 )).create_app()
 
