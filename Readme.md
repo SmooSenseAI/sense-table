@@ -9,12 +9,25 @@ SenseTable helps you explore large-volumn of multi-modal AI data easily.
 
 ### Git Hooks
 
-This project uses git hooks to ensure code quality and prevent broken code from being pushed. The hooks will:
+This project uses git hooks to ensure code quality and prevent broken code from being pushed. The hooks are stored in the `.githooks/` directory and shared with all developers.
+
+The hooks will:
 
 - **pre-commit**: Check for Python syntax errors, trailing whitespace, and basic code quality issues
 - **pre-push**: Run the full test suite and ensure the git tree is clean
 
-#### Installing Hooks
+#### For New Developers
+
+After cloning the repository, run the setup script to install hooks and configure the development environment:
+
+```bash
+# Run the post-clone setup (installs hooks automatically)
+./scripts/post-clone-setup.sh
+```
+
+#### Installing Hooks (Manual)
+
+If you need to reinstall hooks manually:
 
 ```bash
 # Install hooks using make

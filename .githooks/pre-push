@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Pre-push hook to ensure tests pass and git tree is clean
+# This hook runs before git push and prevents push if:
+# 1. Tests fail
+# 2. Git tree is not clean (uncommitted changes)
+
+set -e  # Exit on any error
+
+echo "🔍 Running pre-push checks..."
+
+# Check if git tree is clean
+if ! git diff-index --quiet HEAD --; then
+    echo "❌ Git tree is not clean. Please commit or stash your changes before pushing."
+    echo "   Uncommitted changes detected:"
+    git status --porcelain
+    exit 1
+fi
+
+echo "✅ Git tree is clean"
+
+# Check if we're in the right directory (should have Makefile)
+if [ ! -f "Makefile" ]; then
+    echo "❌ Makefile not found. Please run this hook from the project root directory."
+    exit 1
+fi
+
+echo "🧪 Running tests..."
+
+# Run make test
+if make test; then
+    echo "✅ All tests passed"
+else
+    echo "❌ Tests failed. Please fix the failing tests before pushing."
+    exit 1
+fi
+
+echo "🎉 Pre-push checks completed successfully!"
+echo "   Ready to push to remote repository." 

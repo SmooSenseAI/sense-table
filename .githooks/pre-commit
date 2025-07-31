@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# Pre-commit hook to run basic checks before committing
+# This hook runs before git commit and prevents commit if:
+# 1. Python syntax errors exist
+# 2. Basic linting issues are found
+
+set -e  # Exit on any error
+
+echo "🔍 Running pre-commit checks..."
+
+# Check if we're in the right directory
+if [ ! -f "Makefile" ]; then
+    echo "❌ Makefile not found. Please run this hook from the project root directory."
+    exit 1
+fi
+
+# Check for Python syntax errors
+echo "🐍 Checking Python syntax..."
+find sense_table tests tests_integration -name "*.py" -type f | while read -r file; do
+    if ! python3 -m py_compile "$file"; then
+        echo "❌ Python syntax error in $file"
+        exit 1
+    fi
+done
+
+echo "✅ Python syntax check passed"
+
+# Check for basic import issues
+echo "📦 Checking imports..."
+if ! python3 -c "import sense_table" 2>/dev/null; then
+    echo "⚠️  Warning: Could not import sense_table module"
+    echo "   This might be expected if dependencies are not installed"
+fi
+
+echo "✅ Import check completed"
+
+# Auto-fix common Python formatting issues
+echo "🔧 Auto-fixing Python formatting..."
+git diff --cached --name-only --diff-filter=ACM | grep '\.py$' | while read -r file; do
+    if [ -f "$file" ]; then
+        echo "   Processing Python file: $file"
+        
+        # Create a temporary file for modifications
+        temp_file=$(mktemp)
+        
+        # Remove trailing whitespace and ensure newline at end
+        sed 's/[[:space:]]*$//' "$file" > "$temp_file"
+        
+        # Ensure file ends with newline
+        if [ -s "$temp_file" ] && [ "$(tail -c1 "$temp_file" | wc -l)" -eq 0 ]; then
+            echo "" >> "$temp_file"
+        fi
+        
+        # Check if file was modified
+        if ! cmp -s "$file" "$temp_file"; then
+            echo "   🔧 Auto-fixed formatting issues in $file"
+            mv "$temp_file" "$file"
+            # Re-add the file to staging area
+            git add "$file"
+        else
+            rm "$temp_file"
+        fi
+    fi
+done
+
+# Check and auto-fix common issues in non-Python files
+echo "📝 Checking and auto-fixing non-Python files..."
+git diff --cached --name-only --diff-filter=ACM | grep -E '\.(md|yml|yaml|json)$' | while read -r file; do
+    if [ -f "$file" ]; then
+        echo "   Processing $file"
+        
+        # Create a temporary file for modifications
+        temp_file=$(mktemp)
+        
+        # Remove trailing whitespace and ensure newline at end
+        sed 's/[[:space:]]*$//' "$file" > "$temp_file"
+        
+        # Ensure file ends with newline
+        if [ -s "$temp_file" ] && [ "$(tail -c1 "$temp_file" | wc -l)" -eq 0 ]; then
+            echo "" >> "$temp_file"
+        fi
+        
+        # Check if file was modified
+        if ! cmp -s "$file" "$temp_file"; then
+            echo "   🔧 Auto-fixed trailing whitespace and newline issues in $file"
+            mv "$temp_file" "$file"
+            # Re-add the file to staging area
+            git add "$file"
+        else
+            rm "$temp_file"
+        fi
+    fi
+done
+
+echo "✅ File checks completed"
+
+echo "🎉 Pre-commit checks completed successfully!" 

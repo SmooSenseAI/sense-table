@@ -20,13 +20,13 @@ fi
 # Create hooks directory if it doesn't exist
 mkdir -p "$HOOKS_DIR"
 
-# Copy hooks and make them executable
+# Copy hooks from shared directory and make them executable
 echo "📋 Installing pre-commit hook..."
-cp "$SCRIPT_DIR/../.git/hooks/pre-commit" "$HOOKS_DIR/pre-commit"
+cp "$SCRIPT_DIR/../.githooks/pre-commit" "$HOOKS_DIR/pre-commit"
 chmod +x "$HOOKS_DIR/pre-commit"
 
 echo "📋 Installing pre-push hook..."
-cp "$SCRIPT_DIR/../.git/hooks/pre-push" "$HOOKS_DIR/pre-push"
+cp "$SCRIPT_DIR/../.githooks/pre-push" "$HOOKS_DIR/pre-push"
 chmod +x "$HOOKS_DIR/pre-push"
 
 echo "✅ Git hooks installed successfully!"
