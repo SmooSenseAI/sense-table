@@ -1,5 +1,5 @@
 import unittest
-from sense_table.utils.duckdb import check_permissions
+from sense_table.utils.duckdb_connections import check_permissions
 
 
 

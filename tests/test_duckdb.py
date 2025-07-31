@@ -1,6 +1,6 @@
 import unittest
 from my_logging import getLogger
-from sense_table.utils.duckdb import check_permissions
+from sense_table.utils.duckdb_connections import check_permissions
 
 logger = getLogger(__name__)
 

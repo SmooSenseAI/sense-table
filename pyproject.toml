@@ -12,7 +12,6 @@ dependencies = [
     "pydantic>=2.11.7",
     "pytz>=2025.2",
     "requests>=2.32.3",
-    
 ]
 
 [dependency-groups]
