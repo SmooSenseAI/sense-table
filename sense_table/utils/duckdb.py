@@ -28,6 +28,8 @@ def get_duckdb_connection_s3(s3_client):
     con.execute(f"SET s3_region='{region}'")
     con.execute(f"SET s3_access_key_id='{aws_key}'")
     con.execute(f"SET s3_secret_access_key='{aws_secret}'")
+    #s3_endpoint = 's3express-usw2-az1.us-west-2.amazonaws.com'
+    #con.execute(f"SET s3_endpoint='{s3_endpoint}'")
     con.execute('SET parquet_metadata_cache=true')
 
     if aws_token:

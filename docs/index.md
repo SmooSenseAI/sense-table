@@ -18,7 +18,7 @@ hero:
 
 features:
   - icon: 🚀
-    title: Start & Iterate in 5 minutes
+    title: 5 minutes start & Fast iteration
     details: A pure library simply works on data files. </br> 
             No need for infra nor database engine. </br> 
             Plugable with many data systems and web apps.
@@ -28,12 +28,12 @@ features:
              Quickly preview data files locally or on S3. </br>
              Slice-n-dice and visualize huge data files. </br> 
              See results immediately. </br> 
-    TODO: (Try this 8GB 100M-row parquet file)
+    TODO: Try this 169M-row parquet file
   - icon: 🎯
     title: Visual & Intuitive
     details: Directly see your targets while exploring data, with visual plots & images. </br> 
              Built-in support for common CV visualizations. </br>
-    TODO:  (Try COCO object detection dataset)
+             Try <a href="https://demo.table.smoosense.ai/Table?filePath=s3://sense-table-demo/datasets/COCO2017/bbox.parquet">COCO object detection dataset</a>
   - icon: 👥
     title: Collabrate seemlessly
     details: When deployed, share links to capture your findings along with the context.    

@@ -14,7 +14,6 @@ PWD = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger(__name__)
 
 class SenseTableApp:
-    @validate_call
     def __init__(
         self, *, 
         settings: SenseTableSettings = SenseTableSettings(),
@@ -56,5 +55,5 @@ if __name__ == "__main__":
         url_prefix='', #os.getenv('URL_PREFIX', ''),
         settings=SenseTableSettings(
             enableDebugging=True,
-        )
+        ),
     ).run()
