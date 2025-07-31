@@ -104,7 +104,7 @@ class PageLocator:
     def __init__(self, page):
         self.page = page
 
-    def locate_and_wait(self, selector: str, timeout=5000, scroll=False):
+    def locate_and_wait(self, selector: str, timeout=15000, scroll=False):
         self.page.wait_for_selector(selector, timeout=timeout)
         element = self.page.locator(selector)
         if scroll:
