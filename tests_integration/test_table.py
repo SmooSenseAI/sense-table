@@ -2,30 +2,27 @@ import os
 from my_logging import getLogger
 from playwright_utils import playwright_page, BASE_URL, DATA_DIR
 from playwright.sync_api import sync_playwright, expect
-from basetestcase import BaseTestCase
+from basetestcase import BaseTableTestCase, PageLocator
 import pandas
+import unittest
 
 logger = getLogger(__name__)
 PWD = os.path.dirname(os.path.abspath(__file__))
 
-class TestTable(BaseTestCase):
-
-    def setUp(self):
-        self.file_name = 'dummy_data_various_types.parquet'
-        self.table_url = f"{BASE_URL}/Table?filePath={DATA_DIR}/{self.file_name}&fileFormat=parquet"
-        logger.info(f"Table URL: {self.table_url}")
+class TestTable(BaseTableTestCase):
 
     def test_render_table(self):
         """Test that the table renders"""
         with playwright_page(headless=True) as page:
             # Navigate to the home page
             page.goto(self.table_url)
+            pl = PageLocator(page)
 
             # Set dark theme in local storage after page loads
             page.evaluate("() => { localStorage.setItem('theme', 'dark'); }")
 
             def check_details(mode: str):
-                page.wait_for_selector("div.ag-root-wrapper", timeout=5000)
+                table = pl.table_root()
                 page.wait_for_selector("#sql-status-count-running:has-text('0')", timeout=30_000)
                 self.screenshot(page, f"table_{mode}")
 
@@ -37,7 +34,7 @@ class TestTable(BaseTestCase):
                 # Check that the column headers are rendered
                 df = pandas.read_parquet(os.path.join(DATA_DIR, self.file_name))
                 for c in df.columns:
-                    column_header = page.locator(f"span.ag-header-cell-text:text-is('{c}')")
+                    column_header = pl.table_header(c)
                     self.assertEqual(column_header.inner_text(), c)
 
             check_details('dark')
@@ -50,12 +47,12 @@ class TestTable(BaseTestCase):
         with playwright_page(headless=True) as page:
             # Navigate to the home page
             page.goto(self.table_url)
+            pl = PageLocator(page)
+            table = pl.table_root()
 
-            page.wait_for_selector("div.ag-root-wrapper", timeout=5000)
-            table = page.locator("div.ag-root-wrapper")
             column = 'halffloat'
-            header_selector = f"span.ag-header-cell-text:text-is('{column}')"
-            column_header = page.locator(header_selector)
+            column_header = pl.table_header(column)
+            self.assertIsNotNone(column_header, f"Column header {column} is not found")
             self.assertFalse(self.is_element_in_view(table, column_header), f"Column header {column} is initially not in view")
 
             column_header.scroll_into_view_if_needed()
