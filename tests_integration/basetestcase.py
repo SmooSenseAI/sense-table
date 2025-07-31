@@ -40,7 +40,7 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
         logger.info("Starting server for integration tests...")
         
         # Create the app instance
-        cls.app_instance = SenseTableApp(url_prefix=os.getenv('URL_PREFIX', ''))
+        cls.app_instance = SenseTableApp()
         flask_app = cls.app_instance.create_app()
         
         # Configure Flask for testing

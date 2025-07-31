@@ -2,7 +2,6 @@
 
 .EXPORT_ALL_VARIABLES:
 UI_REPO_DIR := ${PWD}/../sense-table-ui
-URL_PREFIX := 
 
 update-settings-schema:
 	uv run datamodel-codegen \
