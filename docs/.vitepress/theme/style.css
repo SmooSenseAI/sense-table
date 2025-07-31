@@ -36,6 +36,21 @@
   outline-offset: 2px;
 }
 
+/* Ensure links in features section are properly styled */
+.VPHero .container .main .text .details a,
+.VPFeatures .container .items .item .details a {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.VPHero .container .main .text .details a:hover,
+.VPFeatures .container .items .item .details a:hover {
+  color: var(--vp-c-brand-2);
+  text-decoration: underline;
+}
+
 /* Improve button and interactive element accessibility */
 button:focus-visible,
 a:focus-visible {

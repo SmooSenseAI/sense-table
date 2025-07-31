@@ -5,7 +5,7 @@ from sense_table.handlers.query import query_bp
 from sense_table.handlers.fs import fs_bp
 from sense_table.handlers.pages import pages_bp
 from sense_table.handlers.s3 import s3_bp
-from sense_table.settings import SenseTableSettings
+from sense_table.settings import FolderShortcut, SenseTableSettings
 from pydantic import validate_call
 import boto3
 PWD = os.path.dirname(os.path.abspath(__file__))
@@ -55,5 +55,10 @@ if __name__ == "__main__":
         url_prefix='', #os.getenv('URL_PREFIX', ''),
         settings=SenseTableSettings(
             enableDebugging=True,
+            folderShortcuts=[
+                FolderShortcut(name='Home', path='~'),
+                FolderShortcut(name='S3 datasets', path='s3://sense-table-demo/datasets'),
+                FolderShortcut(name='NYCTaxi', path='~/Work/sense-table-demo-data/datasets/NYCTaxi'),
+            ]
         ),
     ).run()

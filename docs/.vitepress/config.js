@@ -31,6 +31,8 @@ export default defineConfig({
           items: [
             { text: 'Introduction', link: '/guide/' },
             { text: 'Start', link: '/guide/start' },
+            { text: 'Serving images', link: '/guide/serve-images' },
+            { text: 'CV visualization', link: '/guide/cv-visualization' },
             { text: 'Configuration', link: '/guide/configuration' },
           ]
         }
