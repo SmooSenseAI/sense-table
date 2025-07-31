@@ -1,4 +1,4 @@
-.PHONY: env clean
+.PHONY: env clean install-hooks
 
 .EXPORT_ALL_VARIABLES:
 UI_REPO_DIR := ${PWD}/../sense-table-ui
@@ -45,4 +45,7 @@ test:
 
 dev:
 	FLASK_DEBUG=1 uv run sense_table/app.py
+
+install-hooks:
+	./scripts/install-hooks.sh
 
