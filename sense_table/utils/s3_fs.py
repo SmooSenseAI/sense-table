@@ -17,11 +17,11 @@ class S3FileSystem:
         prefix = parsed.path.lstrip('/')
         if prefix:
             prefix = prefix.rstrip('/') + '/'
-            
+
         # List objects with the prefix
         paginator = self.s3_client.get_paginator('list_objects_v2')
         items = []
-        
+
         for page in paginator.paginate(Bucket=bucket, Prefix=prefix, Delimiter='/'):
             # Add common prefixes (directories)
             for prefix_entry in page.get('CommonPrefixes', []):
@@ -31,7 +31,7 @@ class S3FileSystem:
                     lastModified=0,
                     isDir=True
                 ))
-                
+
             # Add objects (files)
             for obj in page.get('Contents', []):
                 # Skip the directory marker itself
@@ -43,13 +43,13 @@ class S3FileSystem:
                     lastModified=int(obj['LastModified'].timestamp() * 1000),
                     isDir=False
                 ))
-                
+
             if len(items) >= limit:
                 items = items[:limit]
                 break
-                
+
         return items
-    
+
     @validate_call
     def sign_get_url(self, url: str, expires_in: int = 3600) -> str:
         # Parse the S3 URL
@@ -58,9 +58,9 @@ class S3FileSystem:
             bucket = parsed.netloc
             key = parsed.path.lstrip('/')
             signed_url = self.s3_client.generate_presigned_url(
-                'get_object', 
+                'get_object',
                 Params={
-                    'Bucket': bucket, 
+                    'Bucket': bucket,
                     'Key': key,
                     # S3 inconsistently omitting CORS headers for cached presigned responses when no response overrides are used.
                     'ResponseCacheControl': 'no-cache',
@@ -69,6 +69,14 @@ class S3FileSystem:
             return signed_url
         else:
             raise NotImplementedError(f"Unsupported URL scheme: {parsed.scheme}.")
+
+    @validate_call
+    def put_file(self, url: str, content: str):
+        parsed = urlparse(url)
+        if parsed.scheme == 's3':
+            bucket = parsed.netloc
+            key = parsed.path.lstrip('/')
+            self.s3_client.put_object(Bucket=bucket, Key=key, Body=content)
 
 if __name__ == '__main__':
     s3_client = boto3.client('s3')
