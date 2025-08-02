@@ -48,7 +48,7 @@ def get_file():
             path = os.path.expanduser(path)
         if not os.path.exists(path):
             return jsonify({"error": f"Path {path} does not exist"}), 404
-
+        logger.info(f"Sending file {path}")
         return send_file(path, mimetype=mime_type.get(ext, 'application/octet-stream'))
 
 @fs_bp.post('/upload')

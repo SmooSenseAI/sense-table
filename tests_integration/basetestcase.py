@@ -6,6 +6,8 @@ import os
 from playwright_utils import PlaywrightTestMixin, BASE_URL, DATA_DIR
 from sense_table.app import SenseTableApp
 import pandas
+from sense_table.utils.duckdb_connections import DuckdbConnectionMaker, duckdb_connection_using_s3
+import boto3
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +43,7 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
         logger.info("Starting server for integration tests...")
 
         # Create the app instance
-        cls.app_instance = SenseTableApp()
+        cls.app_instance = SenseTableApp(duckdb_connection_maker=duckdb_connection_using_s3(s3_client=boto3.client('s3')),)
         flask_app = cls.app_instance.create_app()
 
         # Configure Flask for testing
@@ -117,5 +119,22 @@ class PageLocator:
     def table_header(self, column: str):
         return self.locate_and_wait(f"span.ag-header-cell-text:text-is('{column}')")
 
+    def column_stats_cell(self, column: str):
+        return self.locate_and_wait(f"#column-stats-cell-{column}", scroll=True)
+
+    def column_stats_card(self, column: str):
+        return self.locate_and_wait(f"#column-stats-card-{column}")
+
+
     def column_navigation_button(self, column: str):
         return self.locate_and_wait(f"div.column-navigation-item:has-text('{column}')", scroll=True)
+
+    def icon_color_mode(self):
+        return self.locate_and_wait('#icon-button-color-mode')
+
+    def select_column(self, settingKey, value):
+        selector = self.page.locator(f'#select-column-{settingKey}')
+        selector.click()
+        selector.fill(value)
+        self.page.locator(f"li[role='option'] >> text={value}").click()
+        self.page.wait_for_load_state('networkidle')

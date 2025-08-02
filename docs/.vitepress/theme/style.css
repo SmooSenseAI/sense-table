@@ -58,3 +58,34 @@ a:focus-visible {
   outline-offset: 2px;
   border-radius: 4px;
 } 
+
+
+.inline {
+  display: inline-block;
+  height: 1.5em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+  vertical-align: middle;
+}
+
+/* Themed image styles */
+.inline {
+  height: 1.2em;
+  vertical-align: middle;
+  margin: 0 0.2em;
+  border-radius: 2px;
+}
+
+.themed {
+  transition: opacity 0.3s ease;
+}
+
+/* Dark mode adjustments for themed images */
+.dark .themed {
+  /* Additional dark mode styles if needed */
+}
+
+/* Light mode adjustments for themed images */
+:root:not(.dark) .themed {
+  /* Additional light mode styles if needed */
+}
