@@ -6,7 +6,7 @@ export default defineConfig({
   description: 'Your AI data explorer',
   
   // Base URL for GitHub Pages deployment
-  //base: '/sense-table',
+  base: '/sense-table',
   
   // Markdown configuration
   markdown: {
