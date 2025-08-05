@@ -65,7 +65,6 @@ def take_themed_video(file_rel_path: str, url, actions):
 
 
 class UpdateVideos(BaseTestCase):
-
     def test_preview_images(self):
         url = f"{BASE_URL}/FolderBrowser?rootFolder=s3://sense-table-demo/datasets"
         def actions(page):
@@ -75,7 +74,6 @@ class UpdateVideos(BaseTestCase):
             page.wait_for_timeout(1000)
 
         take_themed_video(file_rel_path='preview_images', url=url, actions=actions)
-
 
     def test_preview_csv_file(self):
         """Test that the folder browser can preview a csv file"""
@@ -89,6 +87,26 @@ class UpdateVideos(BaseTestCase):
 
         take_themed_video(file_rel_path='preview_csv', url=url, actions=actions)
 
+    def test_preview_json_file(self):
+        """Test that the folder browser can preview a json file"""
+        url = f"{BASE_URL}/FolderBrowser?rootFolder=s3://sense-table-demo/Preview Files"
+
+        def actions(page):
+            pl = PageLocator(page)
+            pl.folder_nav_item('captions_val2017.json').click()
+            page.wait_for_load_state('networkidle')
+            pl.locate_and_wait('button#json-expand-more').click()
+            page.wait_for_timeout(1000)
+            pl.locate_and_wait('button#json-expand-more').click()
+            page.wait_for_timeout(1000)
+            pl.locate_and_wait('button#json-expand-less').click()
+            page.wait_for_timeout(1000)
+            pl.locate_and_wait('button#json-expand-less').click()
+            page.wait_for_timeout(1000)
+            pl.locate_and_wait('button#json-expand-less').click()
+            page.wait_for_timeout(1000)
+
+        take_themed_video(file_rel_path='preview_json', url=url, actions=actions)
 
     def test_preview_parquet_file(self):
         """Test that the folder browser can preview a csv file"""

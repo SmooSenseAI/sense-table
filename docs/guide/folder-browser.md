@@ -49,5 +49,8 @@ Below is an example of previewing a **856 MB** file in only **a few seconds**.
 <ThemedVideo src="/videos/preview_csv.webm" />
 
 ## Preview json
+We provide a built-in json viewer specially optimized for large data.
+You can interactively expand/collapse and copy whole or part of the data.
 
 
+<ThemedVideo src="/videos/preview_json.webm" />
