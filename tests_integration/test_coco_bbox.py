@@ -14,9 +14,11 @@ PWD = os.path.dirname(os.path.abspath(__file__))
 SCREENSHOT_DIR = os.path.join(PWD, '../docs/public/images/coco')
 
 class TestCocoBboxTable(BaseTestCase):
-    def setUp(self):
-        self.file_path = 's3://sense-table-demo/datasets/COCO2017/bbox.parquet'
-        self.table_url = f"{BASE_URL}/Table?filePath={self.file_path}"
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.file_path = 's3://sense-table-demo/datasets/COCO2017/bbox.parquet'
+        cls.table_url = f"{BASE_URL}/Table?filePath={cls.file_path}"
         shutil.rmtree(SCREENSHOT_DIR, ignore_errors=True)
         pathlib.Path(SCREENSHOT_DIR).mkdir(parents=True, exist_ok=True)
 

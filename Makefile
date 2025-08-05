@@ -49,3 +49,10 @@ dev:
 install-hooks:
 	./scripts/install-hooks.sh
 
+update-videos:
+	(rm -rf docs/public/videos)
+	uv run python tests_integration/update_videos.py
+	for video in docs/public/videos/*.webm; do \
+		ffmpeg -ss 1 -i "$$video" -c:v libvpx-vp9 -c:a libopus "$$video.2.webm"; \
+		mv "$$video.2.webm" "$$video"; \
+	done

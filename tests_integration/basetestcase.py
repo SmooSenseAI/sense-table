@@ -8,6 +8,10 @@ from sense_table.app import SenseTableApp
 import pandas
 from sense_table.utils.duckdb_connections import DuckdbConnectionMaker, duckdb_connection_using_s3
 import boto3
+import pathlib
+import shutil
+
+PWD = os.path.dirname(os.path.abspath(__file__))
 
 logger = logging.getLogger(__name__)
 
@@ -138,3 +142,27 @@ class PageLocator:
         selector.fill(value)
         self.page.locator(f"li[role='option'] >> text={value}").click()
         self.page.wait_for_load_state('networkidle')
+
+    def folder_nav_item(self, name: str):
+        return self.locate_and_wait(f"li.folder-nav-item:has-text('{name}')", scroll=True)
+
+
+class ScreenTaker:
+    def __init__(self, page, subfolder: str):
+        self.page = page
+        self.pl = PageLocator(page)
+        self.screenshot_dir = os.path.join(PWD, '../docs/public/images', subfolder)
+        self.toggle = self.pl.icon_color_mode()
+        pathlib.Path(self.screenshot_dir).mkdir(parents=True, exist_ok=True)
+
+    def _take(self, component, name: str):
+        mode = self.toggle.get_attribute('data-mode')
+        assert mode in ['light', 'dark']
+        component.screenshot(path=f"{self.screenshot_dir}/{name}_{mode}.jpg")
+
+    def take(self, component, name: str):
+        self._take(component, name)
+        self.toggle.click()
+        self.page.wait_for_timeout(100)
+        self._take(component, name)
+

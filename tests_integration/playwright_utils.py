@@ -3,11 +3,16 @@ from contextlib import contextmanager
 import logging
 from os.path import dirname, abspath
 import os
+
+
 logger = logging.getLogger(__name__)
 
-
+PWD = os.path.dirname(os.path.abspath(__file__))
 BASE_URL = f"http://localhost:8000"
 DATA_DIR = os.path.join(dirname(dirname(abspath(__file__))), 'data')
+
+SCREEN_WIDTH = 1440
+SCREEN_HEIGHT = 900
 
 @contextmanager
 def playwright_page(headless=True, browser_type='chromium', **browser_options):
@@ -36,9 +41,10 @@ def playwright_page(headless=True, browser_type='chromium', **browser_options):
 
         try:
             context = browser.new_context(
-                viewport={"width": 1440, "height": 900},
-                device_scale_factor=1  # 👈 Double resolution
+                viewport={"width": SCREEN_WIDTH, "height": SCREEN_HEIGHT},
+                device_scale_factor=1,
             )
+
             # Create new page
             page = context.new_page()
             logger.debug(f"Browser launched ({browser_type}, headless={headless})")
@@ -49,6 +55,7 @@ def playwright_page(headless=True, browser_type='chromium', **browser_options):
             # Always close browser, even if an exception occurs
             browser.close()
             logger.debug("Browser closed")
+
 
 
 @contextmanager

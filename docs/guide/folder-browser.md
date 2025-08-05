@@ -1,8 +1,8 @@
-# Folder Browser
+# Folder Browser as a mini Catelog
 
-Data Catelog is very useful when you want to discover and overview your data, but it is often maintained by SRE team, inflexible to change and difficult to customize.
+Data Catelog is very useful when you want to discover and overview your data, but it is often maintained by a separate SRE team, inflexible to change and difficult to customize.
 
-SenseTable empowers you to directly use File System as a simple catelog. Benefits:
+SenseTable empowers you to directly use File System as a mini catelog. Benefits:
 
 - It is very fast to get started and flexible to make changes.
 - Most of LLMs natively know how to access file systems.
@@ -26,8 +26,27 @@ However S3 is case sensitive, so we need to exactly use `readmd.md` as the file 
 
 
 ## Preview images and videos
+<ThemedVideo src="/videos/preview_images.webm" />
 
-## Preview tables
+
+
+
+## Preview parquet files
+
+Parquet files store their metadata in a dedicated footer at the end of the file. Combined with S3’s support for HTTP Range requests, this allows us to preview Parquet files by fetching only a few kilobytes — even when the full file is many gigabytes in size.
+
+Below is an example of previewing a **100-million-row, 8.43 GB** Parquet file with minimal data transfer in only **one second**.
+
+<ThemedVideo src="/videos/preview_parquet.webm" />
+
+## Preview csv files
+
+CSV is not efficient but due to it simplicity it is still widely used.
+SenseTable also support efficiently previewing csv file by only fetching the first few dozen rows.
+
+Below is an example of previewing a **856 MB** file in only **a few seconds**.
+
+<ThemedVideo src="/videos/preview_csv.webm" />
 
 ## Preview json
 

@@ -3,6 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import CustomFooter from './components/CustomFooter.vue'
 import TooltipLink from './components/TooltipLink.vue'
 import ThemedImage from './components/ThemedImage.vue'
+import ThemedVideo from './components/ThemedVideo.vue'
 import './style.css'
 
 export default {
@@ -12,6 +13,8 @@ export default {
     app.component('TooltipLink', TooltipLink)
     // Register the ThemedImage component globally
     app.component('ThemedImage', ThemedImage)
+    // Register the ThemedVideo component globally
+    app.component('ThemedVideo', ThemedVideo)
   },
   Layout: () => {
     return h(DefaultTheme.Layout, null, {

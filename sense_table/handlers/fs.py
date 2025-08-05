@@ -26,7 +26,7 @@ def get_ls():
             items = LocalFileSystem.list_one_level(path, limit, show_hidden)
         return jsonify([item.model_dump() for item in items])
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e)}), 400
 
 
 
