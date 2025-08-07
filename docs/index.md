@@ -19,7 +19,7 @@ features:
     title: Preview data files without downloading
     details:
   - icon: ⚡️
-    title: Fast & Interactive
+    title: Interactive slice-n-dice large files/datasets
     details:
              Quickly <a href="https://demo.table.smoosense.ai/FolderBrowser?rootFolder=s3://sense-table-demo/Preview%20Files" target=_blank>preview data files</a> locally or on S3. </br>
              Slice-n-dice and visualize huge data files. </br>

@@ -15,6 +15,9 @@ Start a new terminal after you just installed `uv`.
 
 CLI is recommended if you just want to quickly explore data.
 
+<video src='/images/cli-install-start.webm' controls autoplay loop playsinline muted>
+</video>
+
 Install or update SenseTable CLI:
 ```bash
 uv tool install -U sense-table
