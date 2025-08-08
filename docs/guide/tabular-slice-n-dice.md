@@ -1,25 +1,34 @@
 # Tabular slice-n-dice
 
-## Column navigation
+## Overview
+<ThemedImage src="/images/table/overview.jpg" />
 
-## Column types and istributions
-In order to give you intuitive and effortless understanding about the column types and distribution, we embeded visualizations into the table column headers.
+The default layout includes three main panels:
 
-- <ThemedImage src="/images/coco/column_stats_cell_bbox_width_dark.jpg" alt="numerical column histogram" imageClass="inline" /> Numerical columns are visualized with histogram
-- <ThemedImage src="/images/coco/column_stats_cell_category_name_dark.jpg" alt="categorical column treemap" imageClass="inline" /> Categorical columns are visualized with treemap
-- Text column:
+1.	**Column Navigation** (left panel): This panel helps you quickly navigate through your dataset’s columns—especially useful when working with dozens or even hundreds of columns. You can use it to hide or show columns, change their render types, and reorder them.
+2.	**Main Table** (center panel): Displays the data table with column distribution plots embedded in the header, providing immediate visual insights.
+3.	**Row Details** (right panel): When a row is clicked, this panel displays all its column values in a structured view for deeper inspection.
 
 
-### Percentage of null values
+## Column header plots
+
+The header plots convey important insights at a glance, giving you an intuitive understanding of each column’s type and distribution:
+
+- Dark green pie charts show the percentage of null values, helping you quickly assess data completeness.
+- Numerical columns display histograms that reveal the shape and spread of the data.
+Examples: <ThemedImage src="/images/table/header_stats_iou.jpg" imageClass="inline" /><ThemedImage src="/images/table/header_stats_confidence.jpg" imageClass="inline" />
+- Categorical columns show treemaps, highlighting the relative frequency of each category.
+Examples: <ThemedImage src="/images/table/header_stats_match_type.jpg" imageClass="inline" /><ThemedImage src="/images/table/header_stats_category_name.jpg" imageClass="inline" />
+- Text columns come with a quick filter: <ThemedImage src="/images/table/header_stats_filename.jpg" imageClass="inline" />
 
 
 ### Numerical columns
 
-Clicking on the mini plot <ThemedImage src="/images/coco/column_stats_cell_bbox_width_dark.jpg" alt="mini plot" imageClass="inline" />, you will see an enlarged histogram plot along with a brush to filter values by range.
+Clicking on the mini plot <ThemedImage src="/images/table/header_stats_confidence.jpg" imageClass="inline" />, you will see an enlarged histogram plot along with a brush to filter values by range.
 
-<ThemedImage src="/images/coco/column_stats_card_bbox_width_dark.jpg" alt="enlarged histogram plot" />
+<ThemedImage src="/images/table/header_stats_card_confidence.jpg" />
 
 ### Categorical columns
-Clicking on the mini plot <ThemedImage src="/images/coco/column_stats_cell_category_name_dark.jpg" alt="mini plot" imageClass="inline" />, you will see tree map with more details and percentage for each value.
+Clicking on the mini plot <ThemedImage src="/images/table/header_stats_category_name.jpg" imageClass="inline" />, you will see tree map with more details and percentage for each value.
 
-<ThemedImage src="/images/coco/column_stats_card_category_name_dark.jpg" alt="tree map with details" />
+<ThemedImage src="/images/table/header_stats_card_category_name.jpg" />

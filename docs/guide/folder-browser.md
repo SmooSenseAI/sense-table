@@ -9,13 +9,12 @@ SenseTable empowers you to directly use File System as a mini catelog. Benefits:
 - Cost effective. No need to pay for dedicated servers and databases unless it is needed.
 
 
-## Folder Navigation
-
 
 ## Markdown description of a folder
 
 You can optionally add `readme.md` to a folder and get it displayed when you preview the folder.
 
+<ThemedImage src="/images/folder_browser/markdown_readme.jpg"/>
 
 
 ::: warning Caveats of case sensitivity
@@ -24,10 +23,16 @@ On macOS the file system is case-insensitive, so any upper/lower case of `Readme
 However S3 is case sensitive, so we need to exactly use `readmd.md` as the file name.
 :::
 
+## Preview sub folders
+
+SenseTable allows you to preview subfolders and reveal one additional layer within nested structures.
+
+<ThemedImage src="/images/folder_browser/preview_folder.jpg"/>
+
 
 ## Preview images and videos
-<ThemedVideo src="/videos/preview_images.webm" />
 
+<ThemedImage src="/images/folder_browser/preview_images.jpg"/>
 
 
 
@@ -37,7 +42,8 @@ Parquet files store their metadata in a dedicated footer at the end of the file.
 
 Below is an example of previewing a **100-million-row, 8.43 GB** Parquet file with minimal data transfer in only **one second**.
 
-<ThemedVideo src="/videos/preview_parquet.webm" />
+<ThemedImage src="/images/folder_browser/preview_parquet.jpg"/>
+
 
 ## Preview csv files
 
@@ -46,11 +52,11 @@ SenseTable also support efficiently previewing csv file by only fetching the fir
 
 Below is an example of previewing a **856 MB** file in only **a few seconds**.
 
-<ThemedVideo src="/videos/preview_csv.webm" />
+<ThemedImage src="/images/folder_browser/preview_csv.jpg"/>
 
 ## Preview json
 We provide a built-in json viewer specially optimized for large data.
 You can interactively expand/collapse and copy whole or part of the data.
 
 
-<ThemedVideo src="/videos/preview_json.webm" />
+<ThemedImage src="/images/folder_browser/preview_json.jpg"/>

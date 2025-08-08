@@ -112,7 +112,7 @@ class PageLocator:
 
     def locate_and_wait(self, selector: str, timeout=15000, scroll=False):
         self.page.wait_for_selector(selector, timeout=timeout)
-        element = self.page.locator(selector)
+        element = self.page.locator(selector).last
         if scroll:
             element.scroll_into_view_if_needed()
         return element
@@ -125,10 +125,6 @@ class PageLocator:
 
     def column_stats_cell(self, column: str):
         return self.locate_and_wait(f"#column-stats-cell-{column}", scroll=True)
-
-    def column_stats_card(self, column: str):
-        return self.locate_and_wait(f"#column-stats-card-{column}")
-
 
     def column_navigation_button(self, column: str):
         return self.locate_and_wait(f"div.column-navigation-item:has-text('{column}')", scroll=True)
@@ -155,14 +151,19 @@ class ScreenTaker:
         self.toggle = self.pl.icon_color_mode()
         pathlib.Path(self.screenshot_dir).mkdir(parents=True, exist_ok=True)
 
-    def _take(self, component, name: str):
+    def _take(self, component, name: str, pre_actions=None, post_actions=None):
         mode = self.toggle.get_attribute('data-mode')
         assert mode in ['light', 'dark']
+        if pre_actions:
+            pre_actions()
         component.screenshot(path=f"{self.screenshot_dir}/{name}_{mode}.jpg")
+        if post_actions:
+            post_actions()
 
-    def take(self, component, name: str):
-        self._take(component, name)
+    def take(self, component, name: str, pre_actions=None, post_actions=None):
+        self._take(component, name, pre_actions, post_actions)
+
         self.toggle.click()
         self.page.wait_for_timeout(100)
-        self._take(component, name)
+        self._take(component, name, pre_actions, post_actions)
 

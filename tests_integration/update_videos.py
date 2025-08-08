@@ -65,6 +65,8 @@ def take_themed_video(file_rel_path: str, url, actions):
 
 
 class UpdateVideos(BaseTestCase):
+
+
     def test_preview_images(self):
         url = f"{BASE_URL}/FolderBrowser?rootFolder=s3://sense-table-demo/datasets"
         def actions(page):

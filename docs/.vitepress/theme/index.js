@@ -4,10 +4,13 @@ import CustomFooter from './components/CustomFooter.vue'
 import TooltipLink from './components/TooltipLink.vue'
 import ThemedImage from './components/ThemedImage.vue'
 import ThemedVideo from './components/ThemedVideo.vue'
+import VideoFeatures from './components/VideoFeatures.vue'
+import Layout from './Layout.vue'
 import './style.css'
 
 export default {
   extends: DefaultTheme,
+  Layout,
   enhanceApp({ app }) {
     // Register the TooltipLink component globally
     app.component('TooltipLink', TooltipLink)
@@ -15,11 +18,7 @@ export default {
     app.component('ThemedImage', ThemedImage)
     // Register the ThemedVideo component globally
     app.component('ThemedVideo', ThemedVideo)
-  },
-  Layout: () => {
-    return h(DefaultTheme.Layout, null, {
-      // Override the footer slot with our custom component
-      'layout-bottom': () => h(CustomFooter)
-    })
+    // Register the VideoFeatures component globally
+    app.component('VideoFeatures', VideoFeatures)
   }
 } 

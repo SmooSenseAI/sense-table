@@ -70,7 +70,7 @@ a:focus-visible {
 
 /* Themed image styles */
 .inline {
-  height: 1.2em;
+  height: 1.8em;
   vertical-align: middle;
   margin: 0 0.2em;
   border-radius: 2px;
@@ -89,3 +89,92 @@ a:focus-visible {
 :root:not(.dark) .themed {
   /* Additional light mode styles if needed */
 }
+
+/* Hide default VitePress features when we have custom video features */
+.VPHomeFeatures {
+  display: none;
+}
+
+/* Video Features Styles */
+.VPFeatures {
+  margin-top: 48px;
+}
+
+.VPFeatures .container {
+  padding: 0;
+}
+
+.VPFeatures .items {
+  gap: 16px;
+  margin: 0;
+}
+
+.VPFeatures .item {
+  padding: 0;
+  flex: 1;
+  min-width: 280px;
+}
+
+.VPFeatures .box {
+  border: 1px solid var(--vp-c-divider-light);
+  transition: all 0.3s ease;
+}
+
+.VPFeatures .box:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.dark .VPFeatures .box {
+  border-color: var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+}
+
+.dark .VPFeatures .box:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive adjustments for video features */
+@media (max-width: 768px) {
+  .VPFeatures .items {
+    flex-direction: column;
+  }
+  
+  .VPFeatures .item {
+    width: 100%;
+  }
+  
+  .VPFeatures .preview-video {
+    height: 160px;
+  }
+}
+
+/* Modal accessibility improvements */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.modal-close:focus {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
+/* Play button animation */
+.play-overlay {
+  transition: all 0.3s ease;
+}
+
+.item:hover .play-overlay {
+  transform: translate(-50%, -50%) scale(1.1);
+  background: rgba(0, 0, 0, 0.9);
+}
+
+
+
+/* HTML block spacing */
+.vp-doc div[style*="margin: 2rem 0"] {
+  clear: both;
+  display: block !important;
+}
+
