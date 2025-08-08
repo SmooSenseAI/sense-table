@@ -43,6 +43,7 @@ def playwright_page(headless=True, browser_type='chromium', **browser_options):
             context = browser.new_context(
                 viewport={"width": SCREEN_WIDTH, "height": SCREEN_HEIGHT},
                 device_scale_factor=1,
+                permissions=["clipboard-read", "clipboard-write"]
             )
 
             # Create new page

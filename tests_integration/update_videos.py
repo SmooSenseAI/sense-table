@@ -1,7 +1,9 @@
 import os
 from my_logging import getLogger
 from playwright_utils import BASE_URL, DATA_DIR, SCREEN_WIDTH, SCREEN_HEIGHT
-from basetestcase import BaseTestCase, PageLocator, ScreenTaker
+from basetestcase import BaseTestCase, ScreenTaker
+from utils.page_locator import PageLocator
+
 import unittest
 import shutil
 import pathlib

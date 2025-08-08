@@ -1,7 +1,9 @@
 import os
 from my_logging import getLogger
 from playwright_utils import playwright_page, BASE_URL, DATA_DIR
-from basetestcase import BaseTestCase, ScreenTaker, PageLocator
+from basetestcase import BaseTestCase
+from utils.page_locator import PageLocator
+from utils.screen_taker import ScreenTaker
 import unittest
 logger = getLogger(__name__)
 PWD = os.path.dirname(os.path.abspath(__file__))

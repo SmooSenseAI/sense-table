@@ -34,9 +34,10 @@ publish:
 	UV_PUBLISH_TOKEN=$(shell awk '/password/ { print $$3 }' ~/.pypirc) uv publish
 
 integration-test:
-	(rm -rf tests_integration/screenshots)
-	uv run python -m unittest discover tests_integration/
+	uv run python -m unittest discover tests_integration -p "test_*.py"
 
+update-screenshots:
+	uv run python -m unittest discover tests_integration -p "doc_*.py"
 
 test:
 	make unit-test

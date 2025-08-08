@@ -2,7 +2,10 @@ import os
 from my_logging import getLogger
 from playwright_utils import playwright_page, BASE_URL, DATA_DIR
 from playwright.sync_api import sync_playwright, expect
-from basetestcase import BaseTestCase, PageLocator, ScreenTaker
+from basetestcase import BaseTestCase
+from utils.page_locator import PageLocator
+from utils.screen_taker import ScreenTaker
+
 import pandas
 import unittest
 

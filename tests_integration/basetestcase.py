@@ -6,10 +6,9 @@ import os
 from playwright_utils import PlaywrightTestMixin, BASE_URL, DATA_DIR
 from sense_table.app import SenseTableApp
 import pandas
-from sense_table.utils.duckdb_connections import DuckdbConnectionMaker, duckdb_connection_using_s3
+from sense_table.utils.duckdb_connections import duckdb_connection_using_s3
 import boto3
-import pathlib
-import shutil
+
 
 PWD = os.path.dirname(os.path.abspath(__file__))
 
@@ -97,79 +96,4 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
             logger.info("Server thread will terminate with main process")
 
         cls._server_started = False
-
-
-class BaseTableTestCase(BaseTestCase):
-    def setUp(self):
-        self.file_name = 'dummy_data_various_types.parquet'
-        self.file_path = os.path.join(DATA_DIR, self.file_name)
-        self.df = pandas.read_parquet(self.file_path)
-        self.table_url = f"{BASE_URL}/Table?filePath={self.file_path}"
-
-class PageLocator:
-    def __init__(self, page):
-        self.page = page
-
-    def locate_and_wait(self, selector: str, timeout=15000, scroll=False):
-        self.page.wait_for_selector(selector, timeout=timeout)
-        element = self.page.locator(selector).last
-        if scroll:
-            element.scroll_into_view_if_needed()
-        return element
-
-    def border_panel_header(self, name: str):
-        return self.locate_and_wait(f"div.flexlayout__border_button:has-text('{name}')")
-
-    def tab_panel_header(self, name: str):
-        return self.locate_and_wait(f"div.flexlayout__tab_button:has-text('{name}')")
-
-    def table_root(self):
-        return self.locate_and_wait("div.ag-root-wrapper")
-
-    def table_header(self, column: str):
-        return self.locate_and_wait(f"span.ag-header-cell-text:text-is('{column}')")
-
-    def column_stats_cell(self, column: str):
-        return self.locate_and_wait(f"#column-stats-cell-{column}", scroll=True)
-
-    def column_navigation_button(self, column: str):
-        return self.locate_and_wait(f"div.column-navigation-item:has-text('{column}')", scroll=True)
-
-    def icon_color_mode(self):
-        return self.locate_and_wait('#icon-button-color-mode')
-
-    def select_column(self, settingKey, value):
-        selector = self.page.locator(f'#select-column-{settingKey}')
-        selector.click()
-        selector.fill(value)
-        self.page.locator(f"li[role='option'] >> text={value}").click()
-        self.page.wait_for_load_state('networkidle')
-
-    def folder_nav_item(self, name: str):
-        return self.locate_and_wait(f"li.folder-nav-item:has-text('{name}')", scroll=True)
-
-
-class ScreenTaker:
-    def __init__(self, page, subfolder: str):
-        self.page = page
-        self.pl = PageLocator(page)
-        self.screenshot_dir = os.path.join(PWD, '../docs/public/images', subfolder)
-        self.toggle = self.pl.icon_color_mode()
-        pathlib.Path(self.screenshot_dir).mkdir(parents=True, exist_ok=True)
-
-    def _take(self, component, name: str, pre_actions=None, post_actions=None):
-        mode = self.toggle.get_attribute('data-mode')
-        assert mode in ['light', 'dark']
-        if pre_actions:
-            pre_actions()
-        component.screenshot(path=f"{self.screenshot_dir}/{name}_{mode}.jpg")
-        if post_actions:
-            post_actions()
-
-    def take(self, component, name: str, pre_actions=None, post_actions=None):
-        self._take(component, name, pre_actions, post_actions)
-
-        self.toggle.click()
-        self.page.wait_for_timeout(100)
-        self._take(component, name, pre_actions, post_actions)
 
