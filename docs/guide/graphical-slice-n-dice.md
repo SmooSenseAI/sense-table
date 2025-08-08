@@ -24,7 +24,7 @@ For two numerical columns, SenseTable leverages bubble plot instead of scatter p
 
 ## Heatmap
 
-
+<ThemedImage src="/images/slice-n-dice/heatmap.jpg"/>
 
 ## Boxplot
 Box plots are a powerful way to compare the distribution of numerical columns across different groups. SenseTable integrates box plots directly into tables and enhances them with additional features:

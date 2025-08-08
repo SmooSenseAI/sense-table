@@ -26,7 +26,7 @@ class TestTable(BaseTableTestCase):
                 page.wait_for_selector("#sql-status-count-running:has-text('0')", timeout=30_000)
                 self.screenshot(page, f"table_{mode}")
 
-                for tab in ['MainTable', 'ColumnNavigation', 'Gallery', 'RowDetails', 'HeatMap', 'Histogram', 'BoxPlot', 'BubblePlot']:
+                for tab in ['MainTable', 'HeatMap', 'Histogram', 'BoxPlot', 'BubblePlot']:
                     tab_button = page.locator(f"div.flexlayout__tab_button:has-text('{tab}')")
                     self.assertTrue(tab_button.is_visible(), f"Tab button for {tab} is not visible")
                     self.assertEqual(tab_button.inner_text(), tab)

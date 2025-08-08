@@ -59,6 +59,9 @@ class TestTableForDoc(BaseTestCase):
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
             pl = PageLocator(page)
+            pl.border_panel_header('Gallery').click()
+            pl.select_column('galleryVisualColumn', 'bbox_viz')
+            pl.select_column('galleryCaptionColumn', 'confidence')
             st = ScreenTaker(page, 'table')
             for column in ['category_name', 'confidence']:
                 selector = f"#column-stats-card-{column}"
@@ -72,6 +75,27 @@ class TestTableForDoc(BaseTestCase):
                     page.locator(selector).locator('.btn-close').click()
 
                 st.take(page, f'header_stats_card_{column}', pre_actions, post_actions)
+
+    def test_heatmap(self):
+        with playwright_page(headless=True) as page:
+            page.goto(self.url)
+            page.wait_for_load_state('networkidle')
+            page.locator('#btn-layout-side-by-side').click()
+            pl = PageLocator(page)
+
+            pl.tab_panel_header('HeatMap').click()
+            pl.select_column('heatmapXColumn', 'match_type')
+            pl.select_column('heatmapYColumn', 'category_name')
+            pl.select_column('galleryVisualColumn', 'bbox_viz')
+            pl.select_column('galleryCaptionColumn', 'confidence')
+            pl.table_header('FN').click()
+
+            page.wait_for_timeout(1000)
+            page.locator('div.ag-cell[col-id="FN"]').nth(2).click()
+            page.wait_for_load_state('networkidle')
+            page.wait_for_timeout(1000)
+            st = ScreenTaker(page, 'slice-n-dice')
+            st.take(page, 'heatmap')
 
 
 if __name__ == '__main__':

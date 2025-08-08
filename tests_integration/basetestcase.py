@@ -117,6 +117,12 @@ class PageLocator:
             element.scroll_into_view_if_needed()
         return element
 
+    def border_panel_header(self, name: str):
+        return self.locate_and_wait(f"div.flexlayout__border_button:has-text('{name}')")
+
+    def tab_panel_header(self, name: str):
+        return self.locate_and_wait(f"div.flexlayout__tab_button:has-text('{name}')")
+
     def table_root(self):
         return self.locate_and_wait("div.ag-root-wrapper")
 
