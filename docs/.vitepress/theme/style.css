@@ -51,6 +51,22 @@
   text-decoration: underline;
 }
 
+/* Custom VideoFeatures title link styling */
+.VPFeatures h2.title a {
+  color: var(--vp-c-brand-1) !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  border-radius: 4px !important;
+  padding: 2px 4px !important;
+  margin: 0 -4px !important;
+}
+
+.VPFeatures h2.title a:hover {
+  color: var(--vp-c-brand-2) !important;
+  background: var(--vp-c-brand-soft) !important;
+  transform: translateY(-1px) !important;
+}
+
 /* Improve button and interactive element accessibility */
 button:focus-visible,
 a:focus-visible {

@@ -6,11 +6,10 @@
           v-for="(feature, index) in features" 
           :key="index" 
           class="item"
-          @click="openModal(feature, index)"
         >
           <article class="box">
             <!-- Video mode -->
-            <div v-if="feature.video" class="video-container">
+            <div v-if="feature.video" class="video-container" @click="openModal(feature, index)">
               <video 
                 :src="getThemedVideoSrc(feature.video)"
                 autoplay
@@ -30,7 +29,7 @@
             </div>
             
             <!-- Image album mode -->
-            <div v-else-if="feature.images && feature.images.length" class="album-container">
+            <div v-else-if="feature.images && feature.images.length" class="album-container" @click="openModal(feature, index)">
               <div class="album-viewport">
                 <div 
                   class="album-track"
@@ -64,7 +63,7 @@
               </div>
             </div>
             
-            <h2 class="title">{{ feature.title }}</h2>
+            <h2 class="title" v-html="feature.title"></h2>
           </article>
         </div>
       </div>
@@ -130,7 +129,7 @@
           </div>
         </div>
         
-        <div class="modal-caption">{{ modalContent.title }}</div>
+        <div class="modal-caption" v-html="modalContent.title"></div>
       </div>
     </div>
   </div>
@@ -322,12 +321,6 @@ const prevModalImage = () => {
 .item {
   padding: 8px;
   width: 100%;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.item:hover {
-  transform: translateY(-2px);
 }
 
 @media (min-width: 640px) {
@@ -363,6 +356,12 @@ const prevModalImage = () => {
   border-radius: 8px;
   overflow: hidden;
   background: var(--vp-c-bg);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.video-container:hover {
+  transform: translateY(-2px);
 }
 
 .preview-video {
@@ -406,6 +405,12 @@ const prevModalImage = () => {
   border-radius: 8px;
   overflow: hidden;
   background: var(--vp-c-bg);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.album-container:hover {
+  transform: translateY(-2px);
 }
 
 .album-viewport {
@@ -486,10 +491,12 @@ const prevModalImage = () => {
 .title {
   margin: 0;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   color: var(--vp-c-text-1);
   line-height: 1.4;
 }
+
+
 
 /* Modal styles */
 .modal-overlay {
@@ -656,6 +663,24 @@ const prevModalImage = () => {
   text-align: center;
   backdrop-filter: blur(8px);
   z-index: 1000;
+}
+
+.modal-caption a {
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin: 0 -6px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.modal-caption a:hover {
+  color: var(--vp-c-brand-1);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 /* Dark mode adjustments */
