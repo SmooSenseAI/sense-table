@@ -9,7 +9,27 @@ export default withMermaid(defineConfig({
   
   // Base URL for GitHub Pages deployment
   base: '/sense-table',
- 
+  
+  // Google Analytics
+  head: [
+    [
+      'script',
+      {
+        async: true,
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-XSNBTBWZC4'
+      }
+    ],
+    [
+      'script',
+      {},
+      `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XSNBTBWZC4');
+      `
+    ]
+  ],
   
   // Markdown configuration
   markdown: {
