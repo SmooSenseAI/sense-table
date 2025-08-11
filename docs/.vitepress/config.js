@@ -1,12 +1,15 @@
 import { defineConfig } from 'vitepress'
 import { tooltipPlugin } from './plugins/tooltip-plugin.js'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+
+export default withMermaid(defineConfig({
   title: 'SenseTable',
   description: 'Your AI data explorer',
   
   // Base URL for GitHub Pages deployment
   base: '/sense-table',
+ 
   
   // Markdown configuration
   markdown: {
@@ -69,4 +72,4 @@ export default defineConfig({
 
   // Last updated
   lastUpdated: true
-}) 
+})) 

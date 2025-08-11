@@ -4,6 +4,9 @@ from typing import List, Dict
 import boto3
 from urllib.parse import urlparse
 from sense_table.utils.models import FSItem
+import logging
+
+logger = logging.getLogger(__name__)
 
 class S3FileSystem:
     def __init__(self, s3_client: boto3.client):
@@ -54,7 +57,9 @@ class S3FileSystem:
     def sign_get_url(self, url: str, expires_in: int = 3600) -> str:
         # Parse the S3 URL
         parsed = urlparse(url)
-        if parsed.scheme == 's3':
+        if parsed.scheme in ['http', 'https']:
+            return url
+        else:
             bucket = parsed.netloc
             key = parsed.path.lstrip('/')
             signed_url = self.s3_client.generate_presigned_url(
@@ -67,8 +72,6 @@ class S3FileSystem:
                     'ResponseContentDisposition': 'inline',
                 }, ExpiresIn=expires_in)
             return signed_url
-        else:
-            raise NotImplementedError(f"Unsupported URL scheme: {parsed.scheme}.")
 
     @validate_call
     def put_file(self, url: str, content: str):

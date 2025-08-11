@@ -97,3 +97,12 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
 
         cls._server_started = False
 
+
+class BaseTableTestCase(BaseTestCase):
+    def setUp(self):
+        super().setUp()
+        self.file_name = 'dummy_data_various_types.parquet'
+        self.file_path = os.path.join(DATA_DIR, self.file_name)
+        self.df = pandas.read_parquet(self.file_path)
+        self.table_url = f"{BASE_URL}/Table?filePath={self.file_path}"
+

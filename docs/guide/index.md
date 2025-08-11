@@ -26,3 +26,13 @@ SenseTable is designed by domain experts in ML data infra to make your daily wor
   * Efficiently inspect 500 MB json or csv without freezing your laptop.
   * Specially designed plots and drill-through.
 
+## How it works
+
+SenseTables translates GUI into SQL, then execute with query engine and visualize the results.
+
+```mermaid
+graph LR
+    S[SenseTable]
+    S <--> Duckdb <--> Files[Files: parquet/csv/etc]
+    S <--> Q[Trino/Athema] <--> T[Iceberg/Hive]
+```

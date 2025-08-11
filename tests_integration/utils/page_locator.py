@@ -26,8 +26,26 @@ class PageLocator:
     def table_header(self, column: str):
         return self.locate_and_wait(f"span.ag-header-cell-text:text-is('{column}')")
 
+    def table_header_sort_button(self, column: str):
+        column_header = self.table_header(column)
+        # Get the sibling column header
+        # Get the parent element that contains the column header
+        sort_button = column_header.locator("xpath=..").locator(f"[data-ref=eLabel]")
+        return sort_button
+
     def column_stats_cell(self, column: str):
         return self.locate_and_wait(f"#column-stats-cell-{column}", scroll=True)
+
+    def column_stats_card(self, column: str):
+        return self.locate_and_wait(f"#column-stats-card-{column}", scroll=True)
+
+    def column_cells(self, column: str):
+        return self.page.locator(f"div.ag-cell[col-id='{column}']").all()
+
+    def column_cell_values(self, column: str):
+        values = [cell.inner_text() for cell in self.column_cells(column)]
+        # Skip the header cell
+        return values[1:]
 
     def column_navigation_button(self, column: str):
         return self.locate_and_wait(f"div.column-navigation-item:has-text('{column}')", scroll=True)
@@ -50,5 +68,7 @@ class PageLocator:
 
     def get_relative_x_of_column(self, column: str):
         table = self.table_root()
+        table.wait_for(state='visible')
         column_header = self.table_header(column)
+        column_header.wait_for(state='visible')
         return column_header.bounding_box()['x'] - table.bounding_box()['x']

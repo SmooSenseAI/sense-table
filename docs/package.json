@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/SmooSenseAI/sense-table#readme",
   "devDependencies": {
+    "mermaid": "^11.9.0",
+    "vitepress-plugin-mermaid": "^2.0.17",
     "vitepress": "^1.6.3"
   }
 }
