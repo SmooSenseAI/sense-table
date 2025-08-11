@@ -46,7 +46,17 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
         logger.info("Starting server for integration tests...")
 
         # Create the app instance
-        cls.app_instance = SenseTableApp(duckdb_connection_maker=duckdb_connection_using_s3(s3_client=boto3.client('s3')),)
+        available_profiles = boto3.session.Session().available_profiles
+        if 'readonly' in available_profiles:
+            session = boto3.Session(profile_name='readonly')
+        else:
+            session = boto3.Session()
+
+        s3_client = session.client("s3")
+        cls.app_instance = SenseTableApp(
+            s3_client=s3_client,
+            duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client)
+        )
         flask_app = cls.app_instance.create_app()
 
         # Configure Flask for testing

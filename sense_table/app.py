@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class SenseTableApp:
     @validate_call(config=ConfigDict(arbitrary_types_allowed=True))
     def __init__(
-        self, *, 
+        self, *,
         settings: SenseTableSettings = SenseTableSettings(),
         url_prefix: str = '',
         s3_client: BaseClient = boto3.client('s3'),
@@ -35,31 +35,34 @@ class SenseTableApp:
 
     def create_app(self):
         app = Flask(__name__, static_folder='statics', static_url_path=f'{self.url_prefix}')
-        
+
         # Store the s3_client in app config so blueprints can access it
         app.config['S3_CLIENT'] = self.s3_client
         app.config['URL_PREFIX'] = self.url_prefix
         app.config['DUCKDB_CONNECTION_MAKER'] = self.duckdb_connection_maker
-        
+
         # Register blueprints with url_prefix
         app.register_blueprint(query_bp, url_prefix=f"{self.url_prefix}/api")
         app.register_blueprint(fs_bp, url_prefix=f"{self.url_prefix}/api")
         app.register_blueprint(pages_bp, url_prefix=self.url_prefix)
         app.register_blueprint(s3_bp, url_prefix=f"{self.url_prefix}/api")
-        
+
         @app.route(f'{self.url_prefix}/api/settings')
         def get_settings():
             return jsonify(self.settings.model_dump())
-        
+
         return app
-    
+
     def run(self, host: str = '0.0.0.0', port: int = 8000):
         self.create_app().run(host=host, port=port)
 
 
 if __name__ == "__main__":
+    session = boto3.Session(profile_name="readonly")
+    s3_client = session.client("s3")
     SenseTableApp(
-        duckdb_connection_maker=duckdb_connection_using_s3(s3_client=boto3.client('s3')),
+        s3_client=s3_client,
+        duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
         settings=SenseTableSettings(
             enableDebugging=True,
             folderShortcuts=[

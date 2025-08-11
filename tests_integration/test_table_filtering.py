@@ -78,6 +78,7 @@ class TestTableFiltering(BaseTableTestCase):
             page.goto(self.table_url)
             pl = PageLocator(page)
             self.apply_range_filter(page, column, '20', '30')
+            page.wait_for_timeout(1000)
             for value in pl.column_cell_values(column):
                 v = int(value)
                 self.assertTrue(20 <= v <= 30, f"Value {v} is not in range 20-30")
@@ -90,6 +91,7 @@ class TestTableFiltering(BaseTableTestCase):
             page.goto(self.table_url)
             pl = PageLocator(page)
             self.apply_text_filter(page, column, 's5')
+            page.wait_for_timeout(1000)
             for value in pl.column_cell_values(column):
                 self.assertTrue('s5' in value, f"Value {value} should contain 's5'")
             self.assert_filter_count(page, 1)

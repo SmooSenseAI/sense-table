@@ -7,6 +7,7 @@ import pathlib
 from sense_table.utils.local_fs import LocalFileSystem
 from sense_table.utils.s3_fs import S3FileSystem
 import time
+from botocore.exceptions import ClientError
 logger = logging.getLogger(__name__)
 fs_bp = Blueprint('fs', __name__)
 
@@ -57,7 +58,15 @@ def upload_file():
     content = request.json['content']
     if path.startswith('s3://'):
         s3_client = current_app.config['S3_CLIENT']
-        S3FileSystem(s3_client).put_file(path, content)
+        try:
+            S3FileSystem(s3_client).put_file(path, content)
+            return jsonify({"status": "success"})
+        except ClientError as e:
+            msg = str(e)
+            if 'AccessDenied' in msg:
+                return jsonify({"status": "error", "error": msg}), 403
+            else:
+                return jsonify({"status": "error", "error": msg}), 400
     else:
         if path.startswith('~'):
             path = os.path.expanduser(path)
