@@ -31,6 +31,7 @@ class TestTableSorting(BaseTableTestCase):
             sort_button = pl.table_header_sort_button(column)
             self.assertTrue(self.is_element_in_view(table, sort_button), "Sort button should be visible")
             sort_button.click()
+            page.wait_for_timeout(500)
             self.assertTrue(self.is_element_in_view(table, sort_button), "Sort button should stay visible after clicking")
             x_after = pl.get_relative_x_of_column(column)
             logger.info(f"Column {column} x after sorting: {x_after}")
