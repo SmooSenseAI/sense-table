@@ -1,6 +1,6 @@
 [project]
 name = "sense-table"
-version = "0.0.1rc15"
+version = "0.0.1rc16"
 description = "Smoothly make sense of your large-scale multi-modal tabular data"
 readme = "README.md"
 requires-python = ">=3.9"
