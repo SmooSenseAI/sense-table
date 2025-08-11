@@ -1580,7 +1580,7 @@ wheels = [
 
 [[package]]
 name = "sense-table"
-version = "0.0.1rc14"
+version = "0.0.1rc15"
 source = { editable = "." }
 dependencies = [
     { name = "boto3" },
