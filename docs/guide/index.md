@@ -21,36 +21,40 @@ This cycle never truly stops. It’s not a single kickoff task — it’s the co
 ### Analytics vs Exploration
 
 <table>
-  <tr>
-    <th>Aspect</th>
-    <th>Analytics</th>
-    <th>Exploration</th>
-  </tr>
-  <tr>
-    <td>Goal</td>
-    <td>Clear and predefined:<br>"Compute KPI metrics"</td>
-    <td>Ambiguous and evolving:<br>"Is my dataset good, balanced, or sufficient?"</td>
-  </tr>
-  <tr>
-    <td>Workflow</td>
-    <td>Linear: question → query → answer</td>
-    <td>Branching: one discovery triggers 3–5 more questions → and more after that</td>
-  </tr>
-  <tr>
-    <td>Scope</td>
-    <td>Summarizing known metrics</td>
-    <td>Probing unknowns: anomalies, corner cases, unusual distributions</td>
-  </tr>
-  <tr>
-    <td>Granularity</td>
-    <td>Aggregates and trends</td>
-    <td>Shifting between macro-level stats and micro-level samples</td>
-  </tr>
-  <tr>
-    <td>Tools</td>
-    <td>Dashboards, BI tools, SQL queries</td>
-    <td>Multi-modal viewers, annotation tools, embedding visualizers, ad-hoc scripts</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Analytics</th>
+      <th>Exploration</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Goal</td>
+      <td>Clear and predefined:<br>"Compute KPI metrics"</td>
+      <td>Ambiguous and evolving:<br>"Is my dataset good, balanced, or sufficient?"</td>
+    </tr>
+    <tr>
+      <td>Workflow</td>
+      <td>Linear: question → query → answer</td>
+      <td>Branching: one discovery triggers 3–5 more questions → and more after that</td>
+    </tr>
+    <tr>
+      <td>Scope</td>
+      <td>Summarizing known metrics</td>
+      <td>Probing unknowns: anomalies, corner cases, unusual distributions</td>
+    </tr>
+    <tr>
+      <td>Granularity</td>
+      <td>Aggregates and trends</td>
+      <td>Shifting between macro-level stats and micro-level samples</td>
+    </tr>
+    <tr>
+      <td>Tools</td>
+      <td>Dashboards, BI tools, SQL queries</td>
+      <td>Multi-modal viewers, annotation tools, embedding visualizers, ad-hoc scripts</td>
+    </tr>
+  </tbody>
 </table>
 
 ### The pain points
