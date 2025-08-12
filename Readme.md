@@ -1,62 +1,28 @@
 # SenseTable
 
 
-![SenseTable](./sense_table/statics/SenseTable-light.svg)
+![SenseTable](http://stcdn.smoosense.ai/SenseTable-light.svg)
 
 
-SenseTable helps you explore large-volumn of multi-modal AI data easily.
+SenseTable is a purpose-built tool that turns repeititive and manual work in ML data exploration into a smooth intuitive flow-experience. Unlike traditional analytics tools, it’s designed for the ambiguous, branching questions that crop up at every stage of the ML lifecycle—from checking raw data quality and uncovering outliers to investigating model failures and monitoring drift. SenseTable automates 80% of repetitive tasks, works seamlessly with formats like CSV, Parquet, JSONL, and Lance, whether stored locally or in the cloud, and offers a flexible, IDE-style interface with powerful visualization, drill-through, and large-scale data handling.
 
-## Development
+SenseTable empowers you spend less time writing ad-hoc scripts and more time in flow, finding the insights that matter.
 
-### Git Hooks
-
-This project uses git hooks to ensure code quality and prevent broken code from being pushed. The hooks are stored in the `.githooks/` directory and shared with all developers.
-
-The hooks will:
-
-- **pre-commit**: Check for Python syntax errors, trailing whitespace, and basic code quality issues
-- **pre-push**: Run the full test suite and ensure the git tree is clean
-
-#### For New Developers
-
-After cloning the repository, run the setup script to install hooks and configure the development environment:
+## Quick start
+For prerequisites, install [uv](https://docs.astral.sh/uv/) (an extremely fast Python package manager):
 
 ```bash
-# Run the post-clone setup (installs hooks automatically)
-./scripts/post-clone-setup.sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
-
-#### Installing Hooks (Manual)
-
-If you need to reinstall hooks manually:
-
+Start a new terminal after you just installed `uv`. Then install or update SenseTable CLI:
 ```bash
-# Install hooks using make
-make install-hooks
-
-# Or run the script directly
-./scripts/install-hooks.sh
+uv tool install -U sense-table
 ```
 
-#### Skipping Hooks (Emergency Only)
+![CLI](http://stcdn.smoosense.ai/guide-cli-install.gif)
 
-In emergency situations, you can skip the hooks:
 
-```bash
-git commit --no-verify  # Skip pre-commit hook
-git push --no-verify    # Skip pre-push hook
-```
+## Guide
+For more details, please visit
 
-### Running Tests
-
-```bash
-# Run all tests
-make test
-
-# Run only unit tests
-make unit-test
-
-# Run only integration tests
-make integration-test
-```
-
+<https://smoosenseai.github.io/sense-table/guide/>
