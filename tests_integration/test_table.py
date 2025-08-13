@@ -28,12 +28,25 @@ class TestTable(BaseTableTestCase):
             logger.info('Tabs are rendered')
 
             # Check that the column headers are rendered
-            df = pandas.read_parquet(os.path.join(DATA_DIR, self.file_name))
-            for c in df.columns:
+            for c in self.df.columns:
                 column_header = pl.table_header(c)
                 self.assertEqual(column_header.inner_text(), c)
             logger.info('Column headers are rendered')
 
+    def test_render_only_main_table(self):
+        """Test that the table renders"""
+        with playwright_page(headless=True) as page:
+            # Navigate to the home page
+            page.goto(self.table_url.replace('/Table', '/MainTable'))
+            pl = PageLocator(page)
+
+            pl.sql_status_count_running_0().wait_for(state='visible')
+
+            # Check that the column headers are rendered
+            for c in self.df.columns:
+                column_header = pl.table_header(c)
+                self.assertEqual(column_header.inner_text(), c)
+            logger.info('Column headers are rendered')
 
 
 

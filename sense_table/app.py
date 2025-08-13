@@ -65,6 +65,7 @@ if __name__ == "__main__":
         duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
         settings=SenseTableSettings(
             enableDebugging=True,
+            s3PrefixToSaveShareableLink='s3://sense-table-demo/internal/persisted-state/',
             folderShortcuts=[
                 FolderShortcut(name='Home', path='~'),
                 FolderShortcut(name='S3 datasets', path='s3://sense-table-demo/datasets'),

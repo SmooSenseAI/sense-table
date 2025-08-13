@@ -81,6 +81,16 @@ class S3FileSystem:
             key = parsed.path.lstrip('/')
             self.s3_client.put_object(Bucket=bucket, Key=key, Body=content)
 
+    @validate_call
+    def read_text_file(self, url: str) -> str:
+        parsed = urlparse(url)
+        if parsed.scheme == 's3':
+            bucket = parsed.netloc
+            key = parsed.path.lstrip('/')
+            response = self.s3_client.get_object(Bucket=bucket, Key=key)
+            return response['Body'].read().decode('utf-8')
+
+
 if __name__ == '__main__':
     s3_client = boto3.client('s3')
     for item in S3FileSystem(s3_client).list_one_level('s3://sense-table-demo'):

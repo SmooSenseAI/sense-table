@@ -58,7 +58,8 @@ class PageLocator:
         selector.click()
         selector.fill(value)
         self.page.locator(f"li[role='option'] >> text={value}").click()
-        self.page.wait_for_load_state('networkidle')
+        self.page.keyboard.press('Enter')
+        #self.page.wait_for_load_state('networkidle')
 
     def folder_nav_item(self, name: str):
         return self.locate_and_wait(f"li.folder-nav-item:has-text('{name}')", scroll=True)

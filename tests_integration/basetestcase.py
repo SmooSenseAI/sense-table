@@ -5,6 +5,7 @@ import logging
 import os
 from playwright_utils import PlaywrightTestMixin, BASE_URL, DATA_DIR
 from sense_table.app import SenseTableApp
+from sense_table.settings import SenseTableSettings
 import pandas
 from sense_table.utils.duckdb_connections import duckdb_connection_using_s3
 import boto3
@@ -55,7 +56,10 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
         s3_client = session.client("s3")
         cls.app_instance = SenseTableApp(
             s3_client=s3_client,
-            duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client)
+            duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
+            settings=SenseTableSettings(
+                s3PrefixToSaveShareableLink='s3://sense-table-demo/internal/persisted-state/',
+            )
         )
         flask_app = cls.app_instance.create_app()
 

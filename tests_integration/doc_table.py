@@ -19,9 +19,8 @@ class TestTableForDoc(BaseTestCase):
         self.url = f"{BASE_URL}/Table?filePath={os.path.join(DATA_DIR, self.file_name)}"
         logger.info(f"Table URL: {self.url}")
 
-    @unittest.skip("This is for local generation")
     def test_render_table(self):
-        with playwright_page(headless=False) as page:
+        with playwright_page(headless=True) as page:
             # Navigate to the home page
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
