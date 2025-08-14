@@ -22,7 +22,7 @@ features:
     - /images/folder_browser/preview_parquet.jpg
     - /images/folder_browser/preview_folder.jpg
     - /images/folder_browser/preview_csv.jpg
-    title: Preview large data files in one place, without downloading. <a href="https://demo.table.smoosense.ai/FolderBrowser?rootFolder=s3://sense-table-demo/PreviewFiles" target=_blank>(demo)</a>
+    title: Preview large data files in one place, local or cloud. <a href="https://demo.table.smoosense.ai/FolderBrowser?rootFolder=s3://sense-table-demo/PreviewFiles" target=_blank>(demo)</a>
   - images:
     - /images/table/header_stats_card_category_name.jpg
     - /images/table/header_stats_card_confidence.jpg
@@ -30,7 +30,7 @@ features:
     title: Zero setup to explore distributions, filter, sort and search values. <a href="https://demo.table.smoosense.ai/Table?filePath=s3://sense-table-demo/model_failure_analysis/object_detection/analyze_instances/yolov7.parquet" target=_blank>(demo)</a>
   - video: /images/slice-n-dice/bubble-drill-through.webm
     title: Automatic drill-through with customizable visualizations.
-  - title: Sharable links (coming)
+  - title: Share your findings displayed in context with your colleages with one button click.
   - title: Smart contexting for LLM (coming)
   - title: Verifiable and repeatable process
 
