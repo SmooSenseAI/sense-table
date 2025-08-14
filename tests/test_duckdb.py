@@ -1,5 +1,7 @@
 import unittest
+
 from my_logging import getLogger
+
 from sense_table.utils.duckdb_connections import check_permissions
 
 logger = getLogger(__name__)
@@ -20,9 +22,9 @@ class TestCheckPermissions(unittest.TestCase):
             "SELECT * FROM table ORDER BY name ASC",
             "SELECT * FROM table GROUP BY category",
             "SELECT * FROM table LIMIT 10",
-            "SELECT * FROM table OFFSET 5"
+            "SELECT * FROM table OFFSET 5",
         ]
-        
+
         for query in allowed_queries:
             with self.subTest(query=query):
                 # Should not raise any exception
@@ -40,12 +42,14 @@ class TestCheckPermissions(unittest.TestCase):
             "Copy Table To 'file.csv'",  # Mixed case
             "COPY TABLE TO 'file.csv'",  # Upper case
         ]
-        
+
         for query in forbidden_queries:
             with self.subTest(query=query):
                 with self.assertRaises(PermissionError) as context:
                     check_permissions(query)
-                self.assertEqual(str(context.exception), "You are only allowed to run readonly queries")
+                self.assertEqual(
+                    str(context.exception), "You are only allowed to run readonly queries"
+                )
 
     def test_forbidden_export_keyword(self):
         """Test that EXPORT queries are forbidden"""
@@ -56,12 +60,14 @@ class TestCheckPermissions(unittest.TestCase):
             "Export Database 'backup.db'",  # Mixed case
             "EXPORT DATABASE 'backup.db'",  # Upper case
         ]
-        
+
         for query in forbidden_queries:
             with self.subTest(query=query):
                 with self.assertRaises(PermissionError) as context:
                     check_permissions(query)
-                self.assertEqual(str(context.exception), "You are only allowed to run readonly queries")
+                self.assertEqual(
+                    str(context.exception), "You are only allowed to run readonly queries"
+                )
 
     def test_forbidden_delete_keyword(self):
         """Test that DELETE queries are forbidden"""
@@ -73,12 +79,14 @@ class TestCheckPermissions(unittest.TestCase):
             "Delete From Table",  # Mixed case
             "DELETE FROM TABLE",  # Upper case
         ]
-        
+
         for query in forbidden_queries:
             with self.subTest(query=query):
                 with self.assertRaises(PermissionError) as context:
                     check_permissions(query)
-                self.assertEqual(str(context.exception), "You are only allowed to run readonly queries")
+                self.assertEqual(
+                    str(context.exception), "You are only allowed to run readonly queries"
+                )
 
     def test_forbidden_attach_keyword(self):
         """Test that ATTACH queries are forbidden"""
@@ -89,32 +97,36 @@ class TestCheckPermissions(unittest.TestCase):
             "Attach Database 'other.db' As Other",  # Mixed case
             "ATTACH DATABASE 'OTHER.DB' AS OTHER",  # Upper case
         ]
-        
+
         for query in forbidden_queries:
             with self.subTest(query=query):
                 with self.assertRaises(PermissionError) as context:
                     check_permissions(query)
-                self.assertEqual(str(context.exception), "You are only allowed to run readonly queries")
+                self.assertEqual(
+                    str(context.exception), "You are only allowed to run readonly queries"
+                )
 
     def test_edge_cases(self):
         """Test edge cases and boundary conditions"""
         # Empty query
         check_permissions("")
-        
+
         # Query with only whitespace
         check_permissions("   \t\n  ")
-        
+
         # Query with multiple spaces
         check_permissions("SELECT    *    FROM    table")
-        
+
         # Query with newlines
         check_permissions("SELECT *\nFROM table\nWHERE id = 1")
-        
+
         # Query with tabs
         check_permissions("SELECT\t*\tFROM\ttable")
-        
+
         # Query with mixed whitespace
-        check_permissions("SELECT * FROM table WHERE name LIKE '%copy%'")  # 'copy' as part of a string
+        check_permissions(
+            "SELECT * FROM table WHERE name LIKE '%copy%'"
+        )  # 'copy' as part of a string
 
     def test_partial_matches(self):
         """Test that partial matches don't trigger the forbidden check"""
@@ -129,7 +141,7 @@ class TestCheckPermissions(unittest.TestCase):
             "SELECT * FROM table WHERE status = 'deleted'",  # 'delete' in string literal
             "SELECT * FROM table WHERE type = 'attached'",  # 'attach' in string literal
         ]
-        
+
         for query in allowed_queries:
             with self.subTest(query=query):
                 # Should not raise any exception
@@ -143,13 +155,15 @@ class TestCheckPermissions(unittest.TestCase):
             "DELETE FROM table; COPY result TO 'output.csv'",
             "ATTACH DATABASE 'db.db'; EXPORT TABLE table TO 'file.csv'",
         ]
-        
+
         for query in forbidden_queries:
             with self.subTest(query=query):
                 with self.assertRaises(PermissionError) as context:
                     check_permissions(query)
-                self.assertEqual(str(context.exception), "You are only allowed to run readonly queries")
+                self.assertEqual(
+                    str(context.exception), "You are only allowed to run readonly queries"
+                )
 
 
-if __name__ == '__main__':
-    unittest.main() 
+if __name__ == "__main__":
+    unittest.main()

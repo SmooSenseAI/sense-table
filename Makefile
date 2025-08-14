@@ -40,6 +40,8 @@ update-screenshots:
 	uv run python -m unittest discover tests_integration -p "doc_*.py"
 
 test:
+	uv run ruff check --fix
+	uv run ruff format
 	make unit-test
 	make build
 	make integration-test

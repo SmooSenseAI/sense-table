@@ -1,15 +1,16 @@
-import unittest
-import threading
-import time
 import logging
 import os
-from playwright_utils import PlaywrightTestMixin, BASE_URL, DATA_DIR
+import threading
+import time
+import unittest
+
+import boto3
+import pandas
+from playwright_utils import BASE_URL, DATA_DIR, PlaywrightTestMixin
+
 from sense_table.app import SenseTableApp
 from sense_table.settings import SenseTableSettings
-import pandas
 from sense_table.utils.duckdb_connections import duckdb_connection_using_s3
-import boto3
-
 
 PWD = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,8 +49,8 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
 
         # Create the app instance
         available_profiles = boto3.session.Session().available_profiles
-        if 'readonly' in available_profiles:
-            session = boto3.Session(profile_name='readonly')
+        if "readonly" in available_profiles:
+            session = boto3.Session(profile_name="readonly")
         else:
             session = boto3.Session()
 
@@ -58,18 +59,18 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
             s3_client=s3_client,
             duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
             settings=SenseTableSettings(
-                s3PrefixToSaveShareableLink='s3://sense-table-demo/internal/persisted-state/',
-            )
+                s3PrefixToSaveShareableLink="s3://sense-table-demo/internal/persisted-state/",
+            ),
         )
         flask_app = cls.app_instance.create_app()
 
         # Configure Flask for testing
-        flask_app.config['TESTING'] = True
+        flask_app.config["TESTING"] = True
 
         def run_server():
             try:
                 # Run the server (this will block)
-                flask_app.run(host='127.0.0.1', port=8000, debug=False, use_reloader=False)
+                flask_app.run(host="127.0.0.1", port=8000, debug=False, use_reloader=False)
             except Exception as e:
                 logger.error(f"Server failed to start: {e}")
 
@@ -82,6 +83,7 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
 
         # Verify server is running by making a simple request
         import requests
+
         try:
             response = requests.get(f"{BASE_URL}/api/settings", timeout=5)
             if response.status_code == 200:
@@ -115,8 +117,7 @@ class BaseTestCase(unittest.TestCase, PlaywrightTestMixin):
 class BaseTableTestCase(BaseTestCase):
     def setUp(self):
         super().setUp()
-        self.file_name = 'dummy_data_various_types.parquet'
+        self.file_name = "dummy_data_various_types.parquet"
         self.file_path = os.path.join(DATA_DIR, self.file_name)
         self.df = pandas.read_parquet(self.file_path)
         self.table_url = f"{BASE_URL}/Table?filePath={self.file_path}"
-

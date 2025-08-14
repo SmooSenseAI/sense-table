@@ -1,13 +1,11 @@
 import os
-from my_logging import getLogger
-from playwright_utils import playwright_page, BASE_URL, DATA_DIR
-from playwright.sync_api import sync_playwright, expect
+import unittest
+
 from basetestcase import BaseTestCase
+from my_logging import getLogger
+from playwright_utils import BASE_URL, DATA_DIR, playwright_page
 from utils.page_locator import PageLocator
 from utils.screen_taker import ScreenTaker
-
-import pandas
-import unittest
 
 logger = getLogger(__name__)
 PWD = os.path.dirname(os.path.abspath(__file__))
@@ -25,7 +23,7 @@ class TestTableForDoc(BaseTestCase):
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
             pl = PageLocator(page)
-            table = pl.table_root()
+            pl.table_root()
             page.wait_for_selector("#sql-status-count-running:has-text('0')", timeout=30_000)
             cell = page.locator('div.ag-cell[col-id="category_name"]').last
             cell.scroll_into_view_if_needed()

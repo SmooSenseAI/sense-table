@@ -1,21 +1,22 @@
-from playwright.sync_api import sync_playwright
-from contextlib import contextmanager
 import logging
-from os.path import dirname, abspath
 import os
+from contextlib import contextmanager
+from os.path import abspath, dirname
 
+from playwright.sync_api import sync_playwright
 
 logger = logging.getLogger(__name__)
 
 PWD = os.path.dirname(os.path.abspath(__file__))
-BASE_URL = f"http://localhost:8000"
-DATA_DIR = os.path.join(dirname(dirname(abspath(__file__))), 'data')
+BASE_URL = "http://localhost:8000"
+DATA_DIR = os.path.join(dirname(dirname(abspath(__file__))), "data")
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 900
 
+
 @contextmanager
-def playwright_page(headless=True, browser_type='chromium', **browser_options):
+def playwright_page(headless=True, browser_type="chromium", **browser_options):
     """
     Context manager for Playwright that handles browser lifecycle.
 
@@ -43,7 +44,7 @@ def playwright_page(headless=True, browser_type='chromium', **browser_options):
             context = browser.new_context(
                 viewport={"width": SCREEN_WIDTH, "height": SCREEN_HEIGHT},
                 device_scale_factor=1,
-                permissions=["clipboard-read", "clipboard-write"]
+                permissions=["clipboard-read", "clipboard-write"],
             )
 
             # Create new page
@@ -58,9 +59,8 @@ def playwright_page(headless=True, browser_type='chromium', **browser_options):
             logger.debug("Browser closed")
 
 
-
 @contextmanager
-def playwright_browser(headless=True, browser_type='chromium', **browser_options):
+def playwright_browser(headless=True, browser_type="chromium", **browser_options):
     """
     Context manager for Playwright that yields the browser object instead of page.
     Useful when you need to create multiple pages or have more control.
@@ -113,11 +113,11 @@ class PlaywrightTestMixin:
         import os
 
         # Create screenshots directory if it doesn't exist
-        screenshots_dir = os.path.join(os.path.dirname(__file__), 'screenshots')
+        screenshots_dir = os.path.join(os.path.dirname(__file__), "screenshots")
         os.makedirs(screenshots_dir, exist_ok=True)
 
         # Generate filename with test method name if available
-        test_name = getattr(self, '_testMethodName', 'test')
+        test_name = getattr(self, "_testMethodName", "test")
         filename = f"{test_name}_{name}.png"
         filepath = os.path.join(screenshots_dir, filename)
 
@@ -149,7 +149,6 @@ class PlaywrightTestMixin:
         assert title_fragment in title, f"Title '{title}' does not contain '{title_fragment}'"
         logger.info(f"Page title contains '{title_fragment}': {title}")
 
-
     def is_element_in_view(self, container, element):
         container_box = container.bounding_box()
         element_box = element.bounding_box()
@@ -159,5 +158,7 @@ class PlaywrightTestMixin:
 
         return (
             container_box["x"] <= element_box["x"] <= container_box["x"] + container_box["width"]
-            and container_box["y"] <= element_box["y"] <= container_box["y"] + container_box["height"]
+            and container_box["y"]
+            <= element_box["y"]
+            <= container_box["y"] + container_box["height"]
         )

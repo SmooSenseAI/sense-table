@@ -13,5 +13,5 @@ def serialize(obj: Any) -> Any:
     elif isinstance(obj, dict):
         return {k: serialize(v) for k, v in obj.items()}
     elif isinstance(obj, bytes):
-        return f'{obj.hex()}'
+        return f"{obj.hex()}"
     return obj

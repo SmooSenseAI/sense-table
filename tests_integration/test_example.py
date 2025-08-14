@@ -1,12 +1,13 @@
-from playwright.sync_api import expect
 import unittest
+
 from my_logging import getLogger
-from playwright_utils import playwright_page, PlaywrightTestMixin
+from playwright.sync_api import expect
+from playwright_utils import PlaywrightTestMixin, playwright_page
 
 logger = getLogger(__name__)
 
-class TestExample(unittest.TestCase, PlaywrightTestMixin):
 
+class TestExample(unittest.TestCase, PlaywrightTestMixin):
     def test_apple_iphone_lineup(self):
         with playwright_page(headless=True) as page:
             # Step 1: Go to Apple homepage
@@ -24,13 +25,13 @@ class TestExample(unittest.TestCase, PlaywrightTestMixin):
 
             # Step 5: Expect 4 iPhone models below
             lineup_section = page.locator('section:has-text("Explore the lineup")')
-            cards = lineup_section.locator('.product-tile')
+            cards = lineup_section.locator(".product-tile")
             expect(cards).to_have_count(4)
-            
+
             # Get product titles from each card
             titles = []
             for card in cards.all():
-                title = card.locator('.product-tile-headline').inner_html()
+                title = card.locator(".product-tile-headline").inner_html()
                 self.assertIn("iPhone", title)
                 titles.append(title)
 
@@ -39,8 +40,6 @@ class TestExample(unittest.TestCase, PlaywrightTestMixin):
             # Use the mixin method to assert page title
             self.assert_page_title_contains(page, "iPhone")
 
-  
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-

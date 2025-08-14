@@ -1,7 +1,9 @@
-from sense_table.settings import SenseTableSettings
-from pydantic import ValidationError
-from my_logging import getLogger
 import unittest
+
+from my_logging import getLogger
+from pydantic import ValidationError
+
+from sense_table.settings import SenseTableSettings
 
 logger = getLogger(__name__)
 
@@ -10,14 +12,14 @@ class TestSettings(unittest.TestCase):
     def test_settings(self):
         settings = SenseTableSettings()
         logger.info(settings)
-        self.assertEqual(settings.heatmapNormalizeColor, 'none')
+        self.assertEqual(settings.heatmapNormalizeColor, "none")
 
     def test_wrong_name_or_value(self):
         with self.assertRaises(ValidationError):
-            SenseTableSettings(heatmapNormalizeColr='zone')
+            SenseTableSettings(heatmapNormalizeColr="zone")
 
         with self.assertRaises(ValidationError):
-            SenseTableSettings(heatmapNormalizeColor='unknown')
+            SenseTableSettings(heatmapNormalizeColor="unknown")
 
     def test_out_of_range(self):
         settings = SenseTableSettings(baseFontSize=14)
@@ -33,7 +35,5 @@ class TestSettings(unittest.TestCase):
             settings.baseFontSize = 15
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-
-
