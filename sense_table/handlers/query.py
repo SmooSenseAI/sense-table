@@ -1,8 +1,9 @@
 import logging
 from timeit import default_timer
 
-from flask import Blueprint, current_app, jsonify, request
+from flask import Blueprint, Response, current_app, jsonify, request
 
+from sense_table.utils.api import handle_api_errors
 from sense_table.utils.duckdb_connections import check_permissions
 from sense_table.utils.serialization import serialize
 
@@ -11,17 +12,16 @@ query_bp = Blueprint("query", __name__)
 
 
 @query_bp.post("/query")
-def query():
+@handle_api_errors
+def run_query() -> Response:
     connection_maker = current_app.config["DUCKDB_CONNECTION_MAKER"]
     con = connection_maker()
-
     time_start = default_timer()
+    query = request.json["query"] if request.json else None
+    if not query:
+        raise ValueError("query is required in JSON body")
 
-    query = request.json["query"]
-    try:
-        check_permissions(query)
-    except PermissionError as e:
-        return jsonify({"error": str(e)}), 403
+    check_permissions(query)
 
     column_names = []
     rows = []

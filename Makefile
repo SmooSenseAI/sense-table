@@ -42,6 +42,7 @@ update-screenshots:
 test:
 	uv run ruff check --fix
 	uv run ruff format
+	uv run mypy sense_table
 	make unit-test
 	make build
 	make integration-test

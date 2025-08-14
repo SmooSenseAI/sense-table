@@ -94,3 +94,11 @@ strict_equality = true
 exclude = [
     "sense_table/settings.py"  # Generated from another repo
 ]
+
+[[tool.mypy.overrides]]
+module = ["boto3.*", "botocore.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "sense_table.settings"
+ignore_errors = true

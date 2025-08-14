@@ -22,7 +22,7 @@ def duckdb_connection_using_s3(
     if s3_client is None:
         s3_client = boto3.client("s3")
 
-    def maker():
+    def maker() -> DuckDBPyConnection:
         credentials = s3_client._request_signer._credentials
         region = s3_client.meta.region_name
         aws_key = credentials.access_key
@@ -59,7 +59,7 @@ def duckdb_connection_using_one_zone_s3(
     if s3_client is None:
         s3_client = boto3.client("s3")
 
-    def maker():
+    def maker() -> DuckDBPyConnection:
         con = duckdb_connection_using_s3(s3_client)()
         region = s3_client.meta.region_name
         s3_endpoint = f"s3express-{zone}.{region}.amazonaws.com"

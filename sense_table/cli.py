@@ -21,7 +21,7 @@ ASCII_ART = """
 """
 
 
-def get_package_version():
+def get_package_version() -> str:
     """Get the installed package version."""
     try:
         return get_version("sense-table")
@@ -29,7 +29,7 @@ def get_package_version():
         return "dev"
 
 
-def find_available_port(start_port=8000, max_attempts=100):
+def find_available_port(start_port: int = 8000, max_attempts: int = 100) -> int:
     """Find an available port starting from start_port."""
     for port in range(start_port, start_port + max_attempts):
         try:
@@ -43,7 +43,7 @@ def find_available_port(start_port=8000, max_attempts=100):
     )
 
 
-def open_browser_after_delay(url, delay=1):
+def open_browser_after_delay(url: str, delay: int = 1) -> None:
     """Open the default browser after a delay to allow Flask to start."""
     time.sleep(delay)
     webbrowser.open(url)
@@ -54,7 +54,7 @@ def run_app() -> None:
     port = find_available_port()
     url = f"http://localhost:{port}"
 
-    settings = SenseTableSettings(folderBrowserDefaultRootFolder=default_folder)
+    settings = SenseTableSettings(folderBrowserDefaultRootFolder=default_folder)  # type: ignore
     # Using ANSI escape codes for colors
     print("\033[36m" + ASCII_ART + "\033[0m")  # Cyan color for ASCII art
     print(
@@ -70,7 +70,7 @@ def run_app() -> None:
 
 @click.command()
 @click.option("--version", "-v", is_flag=True, help="Show the version and exit.")
-def main(version: bool):
+def main(version: bool) -> None:
     """Smoothly make sense of your large-scale multi-modal tabular data.
 
     SenseTable provides a web interface for exploring and analyzing your data files.

@@ -3,7 +3,8 @@ import logging
 import os
 import textwrap
 
-from flask import Blueprint, current_app, redirect, request
+from flask import Blueprint, Response, current_app, jsonify, redirect, request
+from werkzeug.wrappers import Response as WerkzeugResponse
 
 from sense_table.utils.s3_fs import S3FileSystem
 
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 pages_bp = Blueprint("pages", __name__)
 
 
-def serve_static_html(filename):
+def serve_static_html(filename: str) -> Response:
     """Helper function to serve static HTML files"""
     url_prefix = current_app.config.get("URL_PREFIX", "")
     state_file = request.args.get("state")
@@ -26,7 +27,9 @@ def serve_static_html(filename):
         s3_client = current_app.config["S3_CLIENT"]
         s3_fs = S3FileSystem(s3_client)
         try:
-            state_data = json.loads(s3_fs.read_text_file(state_file))
+            state_content = s3_fs.read_text_file(state_file)
+            if state_content:
+                state_data = json.loads(state_content)
         except Exception as e:
             logger.exception(f"Failed to read state file from S3: {e}")
 
@@ -40,31 +43,31 @@ def serve_static_html(filename):
         </script>
         </head>'''),
     )
-    return content
+    return Response(content, mimetype="text/html")
 
 
 @pages_bp.get("/")
-def get_index():
+def get_index() -> WerkzeugResponse:
     url_prefix = current_app.config.get("URL_PREFIX", "")
     redirect_url = os.path.join(url_prefix, "FolderBrowser")
     return redirect(redirect_url)
 
 
 @pages_bp.get("/FolderBrowser")
-def get_folder_browser():
+def get_folder_browser() -> Response:
     return serve_static_html("FolderBrowser")
 
 
 @pages_bp.get("/Table")
-def get_tabular_slice_dice():
+def get_tabular_slice_dice() -> Response:
     return serve_static_html("Table")
 
 
 @pages_bp.get("/MainTable")
-def get_main_table():
+def get_main_table() -> Response:
     return serve_static_html("MainTable")
 
 
 @pages_bp.get("/api/health")
-def healthchecker():
-    return {"status": "success", "message": "SenseTable is running"}
+def healthchecker() -> Response:
+    return jsonify({"status": "success", "message": "SenseTable is running"})

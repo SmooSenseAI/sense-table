@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Optional
 from urllib.parse import urlparse
 
 import boto3
@@ -68,7 +69,7 @@ class S3FileSystem:
         else:
             bucket = parsed.netloc
             key = parsed.path.lstrip("/")
-            signed_url = self.s3_client.generate_presigned_url(
+            signed_url: str = self.s3_client.generate_presigned_url(
                 "get_object",
                 Params={
                     "Bucket": bucket,
@@ -82,7 +83,7 @@ class S3FileSystem:
             return signed_url
 
     @validate_call
-    def put_file(self, url: str, content: str):
+    def put_file(self, url: str, content: str) -> None:
         parsed = urlparse(url)
         if parsed.scheme == "s3":
             bucket = parsed.netloc
@@ -90,13 +91,15 @@ class S3FileSystem:
             self.s3_client.put_object(Bucket=bucket, Key=key, Body=content)
 
     @validate_call
-    def read_text_file(self, url: str) -> str:
+    def read_text_file(self, url: str) -> Optional[str]:
         parsed = urlparse(url)
         if parsed.scheme == "s3":
             bucket = parsed.netloc
             key = parsed.path.lstrip("/")
             response = self.s3_client.get_object(Bucket=bucket, Key=key)
-            return response["Body"].read().decode("utf-8")
+            content: str = response["Body"].read().decode("utf-8")
+            return content
+        return None
 
 
 if __name__ == "__main__":

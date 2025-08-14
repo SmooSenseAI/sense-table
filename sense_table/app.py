@@ -5,7 +5,7 @@ from typing import Optional
 import boto3
 import duckdb
 from botocore.client import BaseClient
-from flask import Flask, jsonify
+from flask import Flask, Response, jsonify
 from pydantic import ConfigDict, validate_call
 
 from sense_table.handlers.fs import fs_bp
@@ -31,7 +31,7 @@ class SenseTableApp:
         s3_client: Optional[BaseClient] = None,
         duckdb_connection_maker: Optional[DuckdbConnectionMaker] = None,
     ):
-        self.settings = settings if settings is not None else SenseTableSettings()
+        self.settings = settings if settings is not None else SenseTableSettings()  # type: ignore
         self.s3_client = s3_client if s3_client is not None else boto3.client("s3")
         self.duckdb_connection_maker = (
             duckdb_connection_maker
@@ -43,7 +43,7 @@ class SenseTableApp:
             assert not url_prefix.endswith("/"), "url_prefix must not end with /"
         self.url_prefix = url_prefix
 
-    def create_app(self):
+    def create_app(self) -> Flask:
         app = Flask(__name__, static_folder="statics", static_url_path=f"{self.url_prefix}")
 
         # Store the s3_client in app config so blueprints can access it
@@ -58,12 +58,12 @@ class SenseTableApp:
         app.register_blueprint(s3_bp, url_prefix=f"{self.url_prefix}/api")
 
         @app.route(f"{self.url_prefix}/api/settings")
-        def get_settings():
+        def get_settings() -> Response:
             return jsonify(self.settings.model_dump())
 
         return app
 
-    def run(self, host: str = "0.0.0.0", port: int = 8000):
+    def run(self, host: str = "0.0.0.0", port: int = 8000) -> None:
         self.create_app().run(host=host, port=port)
 
 
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     SenseTableApp(
         s3_client=s3_client,
         duckdb_connection_maker=duckdb_connection_using_s3(s3_client=s3_client),
-        settings=SenseTableSettings(
+        settings=SenseTableSettings(  # type: ignore
             enableDebugging=True,
             s3PrefixToSaveShareableLink="s3://sense-table-demo/internal/persisted-state/",
             folderShortcuts=[
