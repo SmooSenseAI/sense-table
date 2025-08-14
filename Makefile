@@ -1,4 +1,4 @@
-.PHONY: env clean install-hooks
+.PHONY: env clean install-hooks build
 
 .EXPORT_ALL_VARIABLES:
 UI_REPO_DIR := ${PWD}/../sense-table-ui
