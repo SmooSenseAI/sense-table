@@ -19,12 +19,12 @@ class TestFolderBrowserForDoc(BaseTestCase):
     def test_markdown_readme(self):
         url = f"{BASE_URL}/FolderBrowser?rootFolder=s3://sense-table-demo"
 
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(url)
             pl = PageLocator(page)
             page.wait_for_load_state('networkidle')
             st = ScreenTaker(page, 'folder_browser')
-            pl.folder_nav_item('Preview Files').click()
+            pl.folder_nav_item('PreviewFiles').click()
             page.wait_for_load_state('networkidle')
             page.wait_for_timeout(500)
 
@@ -38,7 +38,7 @@ class TestFolderBrowserForDoc(BaseTestCase):
             st.take(page, 'markdown_readme', pre_actions, post_actions)
 
     def test_preview_folder(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
             st = ScreenTaker(page, 'folder_browser')
@@ -46,7 +46,7 @@ class TestFolderBrowserForDoc(BaseTestCase):
             st.take(page, 'preview_folder')
 
     def test_preview_json(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             pl = PageLocator(page)
             page.wait_for_load_state('networkidle')
@@ -62,7 +62,7 @@ class TestFolderBrowserForDoc(BaseTestCase):
             st.take(page, 'preview_json')
 
     def test_preview_parquet(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             pl = PageLocator(page)
             page.wait_for_load_state('networkidle')
@@ -73,7 +73,7 @@ class TestFolderBrowserForDoc(BaseTestCase):
             st.take(page, 'preview_parquet')
 
     def test_preview_csv(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             pl = PageLocator(page)
             page.wait_for_load_state('networkidle')
@@ -87,7 +87,7 @@ class TestFolderBrowserForDoc(BaseTestCase):
 
 
     def test_preview_images(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             pl = PageLocator(page)
             page.wait_for_load_state('networkidle')

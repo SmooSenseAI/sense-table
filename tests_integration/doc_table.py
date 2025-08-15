@@ -18,7 +18,7 @@ class TestTableForDoc(BaseTestCase):
         logger.info(f"Table URL: {self.url}")
 
     def test_render_table(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             # Navigate to the home page
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
@@ -43,7 +43,7 @@ class TestTableForDoc(BaseTestCase):
             st.take(page, 'overview', pre_actions)
 
     def test_header_stats(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             # Navigate to the home page
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
@@ -55,7 +55,7 @@ class TestTableForDoc(BaseTestCase):
 
 
     def test_header_stats_card(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
             pl = PageLocator(page)
@@ -77,7 +77,7 @@ class TestTableForDoc(BaseTestCase):
                 st.take(page, f'header_stats_card_{column}', pre_actions, post_actions)
 
     def test_heatmap(self):
-        with playwright_page(headless=True) as page:
+        with playwright_page(headless=False) as page:
             page.goto(self.url)
             page.wait_for_load_state('networkidle')
             page.locator('#btn-layout-side-by-side').click()
