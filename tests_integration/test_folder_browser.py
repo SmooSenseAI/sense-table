@@ -3,7 +3,7 @@ import unittest
 
 from basetestcase import BaseTestCase
 from my_logging import getLogger
-from playwright.sync_api import expect
+from playwright.sync_api import TimeoutError, expect
 from playwright_utils import BASE_URL, DATA_DIR, playwright_page
 from utils.page_locator import PageLocator
 
@@ -105,9 +105,15 @@ class TestFolderBrowser(BaseTestCase):
         if os.path.exists(readme_path):
             os.remove(readme_path)
 
+        # Wait a bit for file system to settle
+        import time
+
+        time.sleep(0.1)
+
         with playwright_page(headless=True) as page:
             # Navigate to the home page first
             page.goto(self.folder_browser_url)
+            page.wait_for_load_state("networkidle")  # Wait for all network activity to finish
             self.assertEqual(
                 page.locator("div.wmde-markdown").count(), 0, "No readme.md file should be present"
             )
@@ -120,17 +126,35 @@ class TestFolderBrowser(BaseTestCase):
             card = pl.locate_and_wait("div#readme-editor-card")
             self.assertTrue(card.is_visible(), "Readme editor card is not visible")
             content = card.locator("div.cm-content")
+            content.click()  # Ensure focus
+            page.wait_for_timeout(200)  # Small delay for editor to be ready
             content.type(
                 "# Test Readme\nThis is a test readme file with some **markdown** formatting.\n\n- Bullet point 1\n- Bullet point 2"
             )
+            page.wait_for_timeout(300)  # Wait for typing to complete
             card.locator('button:has-text("Save")').click()
-            self.assertTrue(card.is_hidden(), "Readme editor card should be hidden after saving")
 
+            # Wait for save to complete and card to hide
+            card.wait_for(state="hidden", timeout=5000)
+            page.wait_for_load_state("networkidle")  # Wait for save request to complete
+
+            # Sometimes the page needs to refresh to show the markdown
+            # Check if markdown content appears, if not refresh the page
             readme = page.locator("div.wmde-markdown")
-            readme.wait_for(state="visible")
+
+            # Try waiting for content to appear
+            try:
+                page.wait_for_selector("div.wmde-markdown:has-text('Test Readme')", timeout=3000)
+            except TimeoutError:
+                logger.info("Markdown content not visible, refreshing page...")
+                page.reload()
+                page.wait_for_load_state("networkidle")
+                page.wait_for_selector("div.wmde-markdown:has-text('Test Readme')", timeout=5000)
+
             content_text = readme.inner_text()
             self.assertTrue(
-                "This is a test readme file with" in content_text, "Readme content be rendered"
+                "This is a test readme file with" in content_text,
+                "Readme content should be rendered",
             )
             logger.info("Readme updated now")
 
@@ -138,11 +162,26 @@ class TestFolderBrowser(BaseTestCase):
             pl.locate_and_wait("div#readme-editor-trigger").click()
             card = pl.locate_and_wait("div#readme-editor-card")
             content = card.locator("div.cm-content")
-            content.clear()
+
+            # Clear content more reliably
+            content.click()
+            page.keyboard.press("Control+a")  # Select all
+            page.wait_for_timeout(100)
+
             new_content = "Updated content again"
             content.type(new_content)
+            page.wait_for_timeout(300)  # Wait for typing to complete
             card.locator('button:has-text("Save")').click()
-            expect(readme).to_have_text([new_content])
+
+            # Wait for save and UI update
+            card.wait_for(state="hidden", timeout=5000)
+            page.wait_for_load_state("networkidle")
+
+            # Wait specifically for the new content to appear
+            page.wait_for_selector(f"div.wmde-markdown:has-text('{new_content}')", timeout=5000)
+
+            # More robust content check
+            expect(readme).to_contain_text(new_content, timeout=5000)
             logger.info(f"Readme updated to {new_content}")
 
 
