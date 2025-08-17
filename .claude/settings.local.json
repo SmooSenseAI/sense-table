@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(uv run:*)"
+      "Bash(uv run:*)",
+      "Bash(make test:*)",
+      "Bash(PYTHONPATH=. uv run python -m unittest tests.test_query tests.test_duckdb -v)",
+      "Bash(make:*)"
     ],
     "deny": [],
     "ask": []

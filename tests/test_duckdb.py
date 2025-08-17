@@ -136,16 +136,37 @@ class TestCheckPermissions(unittest.TestCase):
             "SELECT * FROM exported_data",  # 'export' as part of table name
             "SELECT * FROM deleted_records",  # 'delete' as part of table name
             "SELECT * FROM attached_files",  # 'attach' as part of table name
+            "SELECT * FROM updated_records",  # 'update' as part of table name
             "SELECT * FROM table WHERE description LIKE '%copy%'",  # 'copy' in string literal
             "SELECT * FROM table WHERE action = 'exported'",  # 'export' in string literal
             "SELECT * FROM table WHERE status = 'deleted'",  # 'delete' in string literal
             "SELECT * FROM table WHERE type = 'attached'",  # 'attach' in string literal
+            "SELECT * FROM table WHERE last_updated > '2023-01-01'",  # 'update' in string literal
         ]
 
         for query in allowed_queries:
             with self.subTest(query=query):
                 # Should not raise any exception
                 check_permissions(query)
+
+    def test_forbidden_update_keyword(self):
+        """Test that UPDATE queries are forbidden"""
+        forbidden_queries = [
+            "UPDATE table SET column = 'value'",
+            "UPDATE table SET column = 'value' WHERE id = 1",
+            "UPDATE table SET col1 = 'val1', col2 = 'val2'",
+            "update table set column = 'value'",  # Case insensitive
+            "Update Table Set Column = 'Value'",  # Mixed case
+            "UPDATE TABLE SET COLUMN = 'VALUE'",  # Upper case
+        ]
+
+        for query in forbidden_queries:
+            with self.subTest(query=query):
+                with self.assertRaises(PermissionError) as context:
+                    check_permissions(query)
+                self.assertEqual(
+                    str(context.exception), "You are only allowed to run readonly queries"
+                )
 
     def test_multiple_forbidden_keywords(self):
         """Test queries with multiple forbidden keywords"""
@@ -154,6 +175,8 @@ class TestCheckPermissions(unittest.TestCase):
             "EXPORT DATABASE 'backup.db'; ATTACH DATABASE 'other.db'",
             "DELETE FROM table; COPY result TO 'output.csv'",
             "ATTACH DATABASE 'db.db'; EXPORT TABLE table TO 'file.csv'",
+            "UPDATE table SET col = 'val'; DELETE FROM table",
+            "COPY table TO 'file.csv'; UPDATE table SET col = 'val'",
         ]
 
         for query in forbidden_queries:

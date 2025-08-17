@@ -71,7 +71,7 @@ def duckdb_connection_using_one_zone_s3(
 
 def check_permissions(query: str) -> None:
     tokens = [w.lower() for w in query.split() if w]
-    forbidden = ["copy", "export", "delete", "attach"]
+    forbidden = ["copy", "export", "delete", "attach", "update"]
     if any(w in tokens for w in forbidden):
         logger.warning(f"Forbidden query: {query}")
         raise PermissionError("You are only allowed to run readonly queries")
